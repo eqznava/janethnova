@@ -1,0 +1,101 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* FAQ Section */
+#faq {
+    width: 90%;
+    max-width: 900px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: -3px 11px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Heading */
+#faq h1 {
+    color: #1e3a8a;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* FAQ Container */
+.faq-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* FAQ Items */
+.faq-content {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* FAQ Question and Answer */
+.faq-item {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.faq-item.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Navigation Buttons */
+#prevBtn, #nextBtn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 1.5em;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#prevBtn:hover, #nextBtn:hover {
+    background-color: #1e40af;
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+        height: auto;
+    }
+
+    #faq {
+        max-width: 95%;
+    }
+
+    .faq-content {
+        width: 100%;
+        height: auto;
+    }
+
+    #prevBtn, #nextBtn {
+        font-size: 1.2em;
+        padding: 10px;
+    }
+}
