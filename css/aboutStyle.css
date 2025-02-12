@@ -8,7 +8,7 @@ body {
 }
 
 /* About Section */
-#about {
+.about {
     max-width: 900px;
     margin: 40px auto;
     padding: 20px;
@@ -18,14 +18,14 @@ body {
 }
 
 /* Headings */
-#about h1 {
+.about h1 {
     color: #1e3a8a;
     font-size: 2em;
     text-align: center;
     margin-bottom: 20px;
 }
 
-#about h2 {
+.about h2 {
     color: #1e40af;
     font-size: 1.5em;
     margin-top: 20px;
@@ -34,19 +34,19 @@ body {
 }
 
 /* Paragraphs */
-#about p {
+.about p {
     font-size: 1.1em;
     line-height: 1.6;
     margin-bottom: 15px;
 }
 
 /* Lists */
-#about ul {
+.about ul {
     list-style: none;
     padding: 0;
 }
 
-#about ul li {
+.about ul li {
     font-size: 1.1em;
     background: #eef2ff;
     padding: 10px;
@@ -58,14 +58,14 @@ body {
 }
 
 /* Emojis or Icons inside Lists */
-#about ul li::before {
+.about ul li::before {
     content: "✔️"; /* Use FontAwesome or custom icons if preferred */
     color: #2563eb;
     font-weight: bold;
 }
 
 /* Call-to-Action */
-#about p:last-child {
+.about p:last-child {
     font-size: 1.2em;
     font-weight: bold;
     color: #1e3a8a;
@@ -84,11 +84,11 @@ body {
         font-size: 1.8em;
     }
 
-    #about h2 {
+    .about h2 {
         font-size: 1.3em;
     }
 
-    #about p, #about ul li {
+    .about p, #about ul li {
         font-size: 1em;
     }
 }
