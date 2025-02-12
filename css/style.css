@@ -51,7 +51,7 @@ body {
   border: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  background-color: #469CFA;
+  background-color: #e6eaef;
 }
 
 .aboutButton img, .toolsButton img, .nuclearFacilitiesButton img, .FAQButton img {

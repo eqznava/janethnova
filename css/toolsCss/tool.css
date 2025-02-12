@@ -1,0 +1,112 @@
+/* General Style */
+body {
+    font-family: 'Outfit', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 20px;
+    background-color: #505CFA;
+    color: white;
+  }
+
+  .headerRight img{
+    height: 40px;
+  }
+  
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .mainAbout, .mainTools, .mainNuclearFacilities, .mainFAQ {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    width: 150px;
+  }
+  
+  .aboutButton, .toolsButton, .nuclearFacilitiesButton, .FAQButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: box-shadow 0.3s, transform 0.2s;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    background-color: #e6eaef;
+  }
+  
+  .aboutButton img, .toolsButton img, .nuclearFacilitiesButton img, .FAQButton img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }
+  
+  .aboutButton:hover, .toolsButton:hover, .nuclearFacilitiesButton:hover, .FAQButton:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+  }
+  
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 20px;
+    background-color: #FADB8D;
+    color: #505CFA;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+  
+    .main {
+        gap: 15px;
+    }
+  
+    .footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .aboutButton, .toolsButton, .nuclearFacilitiesButton, .FAQButton {
+        width: 60px;
+        height: 60px;
+    }
+  
+    .aboutButton img, .toolsButton img, .nuclearFacilitiesButton img, .FAQButton img {
+        width: 35px;
+        height: 35px;
+    }
+  }
+  
