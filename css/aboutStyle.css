@@ -75,12 +75,12 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    #about {
+    .about {
         max-width: 95%;
         padding: 15px;
     }
 
-    #about h1 {
+    .about h1 {
         font-size: 1.8em;
     }
 
