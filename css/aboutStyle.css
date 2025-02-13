@@ -1,11 +1,41 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+    font-family: 'Outfit', sans-serif;
     margin: 0;
     padding: 0;
-}
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 20px;
+    background-color: #505CFA;
+    color: white;
+  }
+
+  .headerRight img{
+    height: 31px;
+  }
+
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+  }
 
 /* About Section */
 .about {
@@ -72,6 +102,17 @@ body {
     text-align: center;
     margin-top: 20px;
 }
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 20px;
+    background-color: #FADB8D;
+    color: #505CFA;
+  }
 
 /* Responsive Design */
 @media (max-width: 768px) {

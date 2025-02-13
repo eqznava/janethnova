@@ -21,6 +21,10 @@ body {
   color: white;
 }
 
+.headerRight img{
+  height: 31px;
+}
+
 .main {
   display: flex;
   flex-wrap: wrap;

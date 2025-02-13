@@ -1,5 +1,9 @@
 /* Global Styles */
 body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     font-family: 'Outfit', sans-serif;
     background-color: #ffffff;
     color: #333;
@@ -7,6 +11,21 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 20px;
+    background-color: #505CFA;
+    color: white;
+  }
+
+  .headerRight img{
+    height: 31px;
+  }
 
 /* Titles */
 h1 {
@@ -119,6 +138,18 @@ h2 {
     background-color: #505CFA;
     transform: scale(1.1);
 }
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 20px;
+    background-color: #FADB8D;
+    color: #505CFA;
+    margin-top: 60px;
+  }
 
 /* Responsive */
 @media (max-width: 768px) {
