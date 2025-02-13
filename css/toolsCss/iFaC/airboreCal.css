@@ -29,44 +29,16 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    flex-direction: column;
     gap: 20px;
     padding: 20px;
-    width: 100%;
+    width: 20%;
     max-width: 1200px;
   }
   
-  .mainAbout, .mainTools, .mainNuclearFacilities, .mainFAQ {
+  .dataContainer{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
-    width: 150px;
-  }
-  
-  .aboutButton, .toolsButton, .nuclearFacilitiesButton, .FAQButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: box-shadow 0.3s, transform 0.2s;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    border: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    background-color: #e6eaef;
-  }
-  
-  .aboutButton img, .toolsButton img, .nuclearFacilitiesButton img, .FAQButton img {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-  }
-  
-  .aboutButton:hover, .toolsButton:hover, .nuclearFacilitiesButton:hover, .FAQButton:hover {
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
   }
   
   .footer {

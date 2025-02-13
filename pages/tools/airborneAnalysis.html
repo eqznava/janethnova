@@ -13,7 +13,32 @@
         <div class="headerRight"><img src="/img/radioactive.png" alt="radiation"></div>
     </header>
     <main class="main">
-
+        <div class="dataContainer">
+            <label for="airSampleType">Select what type of air sampling was performed:</label>
+            <select name="airSAmple" id="cars">
+              <option value="beta">β</option>
+              <option value="alpha">α</option>
+            </select>
+        </div>
+        <div class="dataContainer">
+            <label for="airSampleType">Was any technical specification violated?:</label>
+            <select name="technicalSpecification" id="specification">
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+        </div>
+        <div class="dataContainer">
+            <label for="bkgCounts">Background Counts:</label>
+            <input type="number" id="idBkgCounts" name="bkgCounts">
+        </div>
+        <div class="dataContainer">
+            <label for="countRate">Count Rate:</label>
+            <input type="number" id="idCountRate" name="countRate">
+        </div>
+        <div class="dataContainer">
+            <label for="ncpm">Net Count:</label>
+            <input type="number" id="idNcpm" name="ncpm">
+        </div>
     </main>
     <footer class="footer">
         <div class="footerLeft">Developed by Jesus Arias Estrada and Sergio Arturo Enriquez Nava</div>
