@@ -15,7 +15,7 @@
     <main class="main">
         <div class="dataContainer">
             <label for="airSampleType">Select what type of air sampling was performed:</label>
-            <select name="airSAmple" id="cars">
+            <select name="airSample" id="idAirSample">
               <option value="beta">β</option>
               <option value="alpha">α</option>
             </select>
@@ -29,15 +29,42 @@
         </div>
         <div class="dataContainer">
             <label for="bkgCounts">Background Counts:</label>
-            <input type="number" id="idBkgCounts" name="bkgCounts">
+            <input type="number" id="idBkgCounts" name="bkgCounts" placeholder="0">
         </div>
         <div class="dataContainer">
             <label for="countRate">Count Rate:</label>
-            <input type="number" id="idCountRate" name="countRate">
+            <input type="number" id="idCountRate" name="countRate" placeholder="0">
         </div>
         <div class="dataContainer">
             <label for="ncpm">Net Count:</label>
-            <input type="number" id="idNcpm" name="ncpm">
+            <input type="number" id="idNcpm" name="ncpm" placeholder="0">
+        </div>
+        <div class="dataContainer">
+            <label class="subTitle">Start Date & Time:</label>
+            <input type="date" name="startDate" id="idStartDate">
+            <input type="time" name="starTime" id="idStartTime">
+            <label class="subTitle">End Date & Time:</label>
+            <input type="date" name="endDate" id="idEndDate">
+            <input type="time" name="endTime" id="idEndTime">
+            <label class="totalTime">Air sample total time</label>
+            <div class="resultArea">
+                <output class="totalTime">0</output><p>minutes</p>
+            </div>
+        </div>
+        <div class="dataContainer">
+            <label for="flow">What units are you using?</label>
+            <select name="flow" id="idFlow">
+              <option value="cfm">CFM</option>
+              <option value="lpm">LPM</option>
+            </select>
+            <div class="dataContainer">
+                <label for="flowRate">Flow Rate:</label>
+                <input type="number" id="idFlowRate" name="flowRate" placeholder="0 cfm or lpm">
+                <label class="totalFlow">Volume:</label>
+                <div class="resultArea">
+                    <output class="totalFlow">0</output><p>ml</p>
+                </div>
+            </div>
         </div>
     </main>
     <footer class="footer">
