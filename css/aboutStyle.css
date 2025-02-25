@@ -3,133 +3,135 @@ body {
     font-family: 'Outfit', sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
-  }
+    -webkit-text-size-adjust: 100%; /* Prevents zoom issues on iOS */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
+}
 
+/* Header */
 .header {
+    width: 100%;
+    background-color: #505CFA;
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 10px 20px;
-    background-color: #505CFA;
-    color: white;
-  }
-
-  .headerRight img{
-    height: 31px;
-  }
-
-  .main {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
     padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-  }
-
-/* About Section */
-.about {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Headings */
-.about h1 {
-    color: #1e3a8a;
-    font-size: 2em;
+.headerLeft {
+    font-size: 1.8rem;
+    font-weight: bold;
     text-align: center;
-    margin-bottom: 20px;
 }
 
-.about h2 {
-    color: #1e40af;
-    font-size: 1.5em;
-    margin-top: 20px;
-    border-bottom: 2px solid #1e40af;
-    padding-bottom: 5px;
+.headerRight img {
+    width: 50px;
+    height: 50px;
 }
 
-/* Paragraphs */
-.about p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    margin-bottom: 15px;
+/* Main Content */
+.main {
+    max-width: 900px;
+    width: 90%;
+    padding: 20px;
+    text-align: center;
 }
 
-/* Lists */
-.about ul {
-    list-style: none;
+h1, h2 {
+    color: #505CFA;
+}
+
+p {
+    font-size: 1.2rem;
+    text-align: justify;
+    padding: 10px;
+}
+
+ul {
+    text-align: left;
+    list-style-type: none;
     padding: 0;
 }
 
-.about ul li {
-    font-size: 1.1em;
-    background: #eef2ff;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+ul li {
+    font-size: 1.2rem;
+    padding: 5px 0;
 }
 
-/* Emojis or Icons inside Lists */
-.about ul li::before {
-    content: "✔️"; /* Use FontAwesome or custom icons if preferred */
-    color: #2563eb;
-    font-weight: bold;
-}
-
-/* Call-to-Action */
-.about p:last-child {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #1e3a8a;
-    text-align: center;
-    margin-top: 20px;
-}
-
+/* Footer */
 .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
-    max-width: 1200px;
-    padding: 10px 20px;
-    background-color: #FADB8D;
-    color: #505CFA;
-  }
+    background-color: #469CFA;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .about {
-        max-width: 95%;
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .headerRight img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .main {
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .headerLeft {
+        font-size: 1.4rem;
+    }
+
+    .main {
+        width: 100%;
         padding: 15px;
     }
 
-    .about h1 {
-        font-size: 1.8em;
+    p, ul li {
+        font-size: 1rem;
     }
+}
 
-    .about h2 {
-        font-size: 1.3em;
+/* Foldable Devices (Samsung Z Fold 6) */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+    .header {
+        padding: 10px;
     }
+    
+    .main {
+        padding: 10px;
+    }
+}
 
-    .about p, #about ul li {
-        font-size: 1em;
+@media screen and (max-width: 1290px) and (orientation: landscape) {
+    .header {
+        padding: 20px;
     }
+}
+
+/* iOS and Android Specific Fixes */
+input[type="text"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], input[type="time"], select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 5px;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
+    touch-action: manipulation;
 }

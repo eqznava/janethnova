@@ -16,6 +16,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const countRateInput = document.getElementById("idCountRate");
     const ncpmInput = document.getElementById("idNcpm");
 
+    // Get the "Calcular" button
+    const calcularButton = document.querySelector("button");
+
     // Function to calculate total time in minutes
     function calculateTotalTime() {
         if (startDate.value && startTime.value && endDate.value && endTime.value) {
@@ -53,12 +56,38 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Function to calculate Net Count (Ncpm)
-    function calculateNcpm() {
+    function calculateActivity() {
         let bkgCounts = parseFloat(bkgCountsInput.value) || 0;
         let countRate = parseFloat(countRateInput.value) || 0;
 
         let netCount = countRate - bkgCounts;
         ncpmInput.value = Math.max(Math.round(netCount), 0); // Rounded and no negative values
+    }
+
+    // Function to calculate DAC Fraction and display it in SweetAlert
+    function calculateDACFraction() {
+        let netCount = parseFloat(ncpmInput.value) || 0;
+        let totalVolume = parseFloat(totalFlowOutput.textContent) || 0;
+
+        if (totalVolume > 0) {
+            let dacFraction = netCount / totalVolume; // Example formula (Replace with actual calculation)
+            dacFraction = dacFraction.toFixed(4); // Round to 4 decimal places
+
+            // Display result in SweetAlert modal
+            swal({
+                title: "DAC Fraction Result",
+                text: `The calculated fraction of DAC is: ${dacFraction}`,
+                icon: "info",
+                button: "OK",
+            });
+        } else {
+            swal({
+                title: "Error",
+                text: "Please enter valid input values before calculating DAC Fraction.",
+                icon: "error",
+                button: "OK",
+            });
+        }
     }
 
     // Event listeners
@@ -68,6 +97,9 @@ document.addEventListener("DOMContentLoaded", function() {
     endTime.addEventListener("change", calculateTotalTime);
     flowRateInput.addEventListener("input", calculateVolume);
     flowUnitSelect.addEventListener("change", calculateVolume);
-    countRateInput.addEventListener("input", calculateNcpm);
-    bkgCountsInput.addEventListener("input", calculateNcpm);
+    countRateInput.addEventListener("input", calculateActivity);
+    bkgCountsInput.addEventListener("input", calculateActivity);
+
+    // Attach event listener to the "Calcular" button
+    calcularButton.addEventListener("click", calculateDACFraction);
 });

@@ -3,11 +3,15 @@ body {
   font-family: 'Outfit', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #FADB8D;
+  background-color: #ffffff;
   color: #333;
   display: flex;
   flex-direction: column;
   align-items: center;
+  -webkit-text-size-adjust: 100%; /* Prevents zoom issues on iOS */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.6;
 }
 
 /* Header */
@@ -32,15 +36,12 @@ body {
   height: 50px;
 }
 
-/* Main Layout */
+/* Main Content */
 .main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  width: 100%;
   max-width: 900px;
+  width: 90%;
+  padding: 20px;
+  text-align: center;
 }
 
 .dataContainer {
@@ -70,6 +71,7 @@ input, select {
   border: 2px solid #469CFA;
   border-radius: 5px;
   margin-bottom: 10px;
+  outline: none;
 }
 
 .resultArea {
@@ -77,6 +79,53 @@ input, select {
   align-items: center;
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+/* Button Styling */
+button {
+  background-color: #505CFA;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #469CFA;
+}
+
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.modal button {
+  background-color: #469CFA;
+  margin-top: 10px;
 }
 
 /* Footer */
@@ -124,7 +173,7 @@ input, select {
   .header {
       padding: 10px;
   }
-
+  
   .dataContainer {
       padding: 10px;
   }

@@ -1,101 +1,110 @@
-/* General Page Styling */
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+    font-family: 'Outfit', sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh;
+    background-color: #FADB8D;
+    color: #333;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    -webkit-text-size-adjust: 100%; /* Prevents zoom issues on iOS */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
 }
 
 /* FAQ Section */
 #faq {
-    width: 90%;
     max-width: 900px;
+    width: 90%;
     padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: -3px 11px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-/* Heading */
-#faq h1 {
-    color: #1e3a8a;
-    font-size: 2em;
-    margin-bottom: 20px;
+h1 {
+    color: #505CFA;
+    text-shadow: -1px 0px black;;
 }
 
-/* FAQ Container */
 .faq-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
+    max-width: 1000px;
+    width: 90%;
+    padding: 10px;
 }
 
-/* FAQ Items */
 .faq-content {
-    width: 80%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    width: 100%;
     align-items: center;
-    text-align: center;
-    height: 200px;
-    overflow: hidden;
-    position: relative;
 }
 
-/* FAQ Question and Answer */
 .faq-item {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.faq-item.active {
-    display: block;
-    opacity: 1;
-}
-
-/* Navigation Buttons */
-#prevBtn, #nextBtn {
-    background-color: #2563eb;
-    color: white;
-    border: none;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: -7px 6px 0px rgba(0, 0, 0, 0.1);
+    text-align: center;
     padding: 15px;
-    font-size: 1.5em;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background 0.3s, transform 0.2s;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
-#prevBtn:hover, #nextBtn:hover {
-    background-color: #1e40af;
-    transform: scale(1.1);
+.faq-item h2 {
+    font-size: 1.4rem;
+    color: #469CFA;
+    text-shadow: 1px 0px black;
+}
+
+.faq-item p {
+    font-size: 1.2rem;
+    text-align: justify;
+    padding: 10px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    body {
-        padding: 20px;
-        height: auto;
-    }
-
     #faq {
-        max-width: 95%;
+        width: 95%;
     }
-
-    .faq-content {
+    
+    .faq-container {
         width: 100%;
-        height: auto;
+        padding: 10px;
     }
 
-    #prevBtn, #nextBtn {
-        font-size: 1.2em;
+    .faq-item h2 {
+        font-size: 1.3rem;
+    }
+
+    .faq-item p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-item h2 {
+        font-size: 1.2rem;
+    }
+    
+    .faq-item p {
+        font-size: 1rem;
+    }
+}
+
+/* Foldable Devices (Samsung Z Fold 6) */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+    #faq {
         padding: 10px;
+    }
+}
+
+@media screen and (max-width: 1290px) and (orientation: landscape) {
+    #faq {
+        padding: 20px;
     }
 }

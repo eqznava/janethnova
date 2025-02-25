@@ -1,27 +1,30 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const faqs = document.querySelectorAll(".faq-item");
+    const faqContent = document.querySelector(".faq-content");
+    const faqItems = document.querySelectorAll(".faq-item");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
+    
     let currentIndex = 0;
-
-    function showFAQ(index) {
-        faqs.forEach((faq, i) => {
-            faq.classList.remove("active");
-        });
-
-        faqs[index].classList.add("active");
+    
+    function updateFAQPosition() {
+        const itemWidth = faqItems[0].offsetWidth;
+        faqContent.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
     }
+    
+    nextBtn.addEventListener("click", function () {
+        if (currentIndex < faqItems.length - 1) {
+            currentIndex++;
+            updateFAQPosition();
+        }
+    });
 
     prevBtn.addEventListener("click", function () {
-        currentIndex = (currentIndex === 0) ? faqs.length - 1 : currentIndex - 1;
-        showFAQ(currentIndex);
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateFAQPosition();
+        }
     });
 
-    nextBtn.addEventListener("click", function () {
-        currentIndex = (currentIndex === faqs.length - 1) ? 0 : currentIndex + 1;
-        showFAQ(currentIndex);
-    });
-
-    // Show the first FAQ initially
-    showFAQ(currentIndex);
+    // Resize fix
+    window.addEventListener("resize", updateFAQPosition);
 });

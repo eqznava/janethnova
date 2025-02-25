@@ -21,13 +21,6 @@
             </select>
         </div>
         <div class="dataContainer">
-            <label for="airSampleType">Was any technical specification violated?:</label>
-            <select name="technicalSpecification" id="specification">
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-        </div>
-        <div class="dataContainer">
             <label for="bkgCounts">Background Counts:</label>
             <input type="number" id="idBkgCounts" name="bkgCounts" placeholder="0">
         </div>
@@ -48,7 +41,7 @@
             <input type="time" name="endTime" id="idEndTime">
             <label class="totalTimeTitle">Air sample total time</label>
             <div class="resultArea">
-                <output class="totalTime">0</output><p>minutes</p>
+                <output class="totalTime">0&nbsp;</output><p>minutes</p>
             </div>
         </div>
         <div class="dataContainer">
@@ -57,20 +50,22 @@
               <option value="cfm">CFM</option>
               <option value="lpm">LPM</option>
             </select>
-            <div class="dataContainer">
-                <label for="flowRate">Flow Rate:</label>
-                <input type="number" id="idFlowRate" name="flowRate" placeholder="0">
-                <label class="totalFlowTitle">Volume:</label>
-                <div class="resultArea">
-                    <output class="totalFlow">0</output><p>ml</p>
-                </div>
+            <label for="flowRate">Flow Rate:</label>
+            <input type="number" id="idFlowRate" name="flowRate" placeholder="0">
+            <label class="totalFlowTitle">Volume:</label>
+            <div class="resultArea">
+                <output class="totalFlow">0&nbsp;</output><p>ml</p>
             </div>
         </div>
-    </main>
+        <div class="dataContainer">
+            <button onclick="calculateDAC()">Calcular</button>
+        </div>
+            </main>
     <footer class="footer">
         <div class="footerLeft">Developed by Jesus Arias Estrada and Sergio Arturo Enriquez Nava</div>
         <div class="footerRight">Copyright 2025</div>
     </footer>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../js/airBorneCal.js"></script>
 </body>
 </html>

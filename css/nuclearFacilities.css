@@ -1,168 +1,217 @@
-/* Global Styles */
+/* General Styles */
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     font-family: 'Outfit', sans-serif;
-    background-color: #ffffff;
-    color: #333;
-    text-align: center;
     margin: 0;
     padding: 0;
+    background-color: #FADB8D;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    -webkit-text-size-adjust: 100%; /* Prevents zoom issues on iOS */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
 }
 
+/* Header */
 .header {
+    width: 100%;
+    background-color: #505CFA;
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 10px 20px;
-    background-color: #505CFA;
-    color: white;
-  }
+    padding: 20px;
+}
 
-  .headerRight img{
-    height: 31px;
-  }
+.headerLeft {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+}
 
-/* Titles */
-h1 {
+.headerRight img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Main Content */
+.main {
+    max-width: 900px;
+    width: 90%;
+    padding: 20px;
+    text-align: center;
+    margin: 15px;
+    box-shadow: -8px 9px 7px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
     color: #505CFA;
-    font-size: 2.5em;
-    margin-top: 20px;
 }
 
-h2 {
-    color: #469CFA;
-    font-size: 2em;
-    margin-bottom: 20px;
+p {
+    font-size: 1.2rem;
+    text-align: justify;
+    padding: 10px;
 }
 
-/* Carousel Container */
+ul {
+    text-align: left;
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    font-size: 1.2rem;
+    padding: 5px 0;
+}
+
+/* Carousel Styling */
 .carousel-container {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 21%;
-    margin: auto;
+    max-width: 1000px;
+    width: 90%;
     overflow: hidden;
 }
 
-/* Carousel */
 .carousel {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
-/* Cards */
 .card {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 15px;
-    margin: auto;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    flex: 0 0 auto;
     width: 300px;
-    height: auto;
+    background: #BCE1FA;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    transition: opacity 0.5s ease-in-out;
-}
-
-/* Initially Hide All Cards */
-.card {
-    display: none;
-    opacity: 0;
-}
-
-/* Show the active card */
-.card.active {
-    display: block;
-    opacity: 1;
+    padding: 15px;
+    scroll-snap-align: start;
 }
 
 .cardImg img {
     width: 100%;
-    height: 180px;
-    border-radius: 8px;
-    object-fit: none;
-    box-shadow: 2px 2px 8px;
+    border-radius: 10px;
 }
 
-/* Card Info */
-.cardInfo {
-    padding: 10px;
-}
-
-.cardTitle {
-    font-size: 1.4em;
-    color: #505CFA;
-    margin-bottom: 10px;
-}
-
-.info {
-    font-size: 1em;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-/* Buttons */
 .cardButton {
-    display: block;
-    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
     background-color: #469CFA;
     color: white;
-    padding: 8px 15px;
+    text-decoration: none;
     border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.cardButton:hover {
-    background-color: #505CFA;
 }
 
 /* Carousel Buttons */
 .carousel-btn {
-    background-color: rgba(80, 92, 250, 0.3);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.3);
     color: white;
     border: none;
-    font-size: 2em;
     cursor: pointer;
-    border-radius: 50%;
     padding: 10px;
-    transition: 0.3s;
+    font-size: 20px;
+    border-radius: 50%;
 }
 
-.carousel-btn:hover {
-    background-color: #505CFA;
-    transform: scale(1.1);
+#prevBtn {
+    left: 10px;
 }
 
+#nextBtn {
+    right: 10px;
+}
+
+/* Footer */
 .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
-    max-width: 1200px;
-    padding: 10px 20px;
-    background-color: #FADB8D;
-    color: #505CFA;
-    margin-top: 60px;
-  }
+    background-color: #469CFA;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
 
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
-    .carousel-container {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .headerRight img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .main {
         width: 95%;
     }
 
-    .card {
-        min-width: 280px;
+    .carousel-container {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .headerLeft {
+        font-size: 1.4rem;
+    }
+
+    .main {
+        width: 100%;
+        padding: 15px;
+    }
+
+    p, ul li {
+        font-size: 1rem;
     }
 
     .carousel-btn {
-        font-size: 1.5em;
-        padding: 8px;
+        font-size: 18px;
+        padding: 5px;
     }
+}
+
+/* Foldable Devices (Samsung Z Fold 6) */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+    .header {
+        padding: 10px;
+    }
+    
+    .main {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 1290px) and (orientation: landscape) {
+    .header {
+        padding: 20px;
+    }
+}
+
+/* iOS and Android Specific Fixes */
+input[type="text"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], input[type="time"], select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 5px;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
+    touch-action: manipulation;
 }
