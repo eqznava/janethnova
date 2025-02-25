@@ -16,7 +16,7 @@
         <div class="dataContainer">
             <label for="airSampleType">Select what type of air sampling was performed:</label>
             <select name="airSample" id="idAirSample">
-              <option value="beta">β</option>
+              <option value="beta">β-γ</option>
               <option value="alpha">α</option>
             </select>
         </div>
@@ -46,7 +46,7 @@
             <label class="subTitle">End Date & Time:</label>
             <input type="date" name="endDate" id="idEndDate">
             <input type="time" name="endTime" id="idEndTime">
-            <label class="totalTime">Air sample total time</label>
+            <label class="totalTimeTitle">Air sample total time</label>
             <div class="resultArea">
                 <output class="totalTime">0</output><p>minutes</p>
             </div>
@@ -59,8 +59,8 @@
             </select>
             <div class="dataContainer">
                 <label for="flowRate">Flow Rate:</label>
-                <input type="number" id="idFlowRate" name="flowRate" placeholder="0 cfm or lpm">
-                <label class="totalFlow">Volume:</label>
+                <input type="number" id="idFlowRate" name="flowRate" placeholder="0">
+                <label class="totalFlowTitle">Volume:</label>
                 <div class="resultArea">
                     <output class="totalFlow">0</output><p>ml</p>
                 </div>
@@ -71,5 +71,6 @@
         <div class="footerLeft">Developed by Jesus Arias Estrada and Sergio Arturo Enriquez Nava</div>
         <div class="footerRight">Copyright 2025</div>
     </footer>
+    <script src="../js/airBorneCal.js"></script>
 </body>
 </html>

@@ -1,104 +1,137 @@
-/* General Style */
+/* General Styles */
 body {
-    font-family: 'Outfit', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-  }
-  
+  font-family: 'Outfit', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #FADB8D;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header */
+.header {
+  width: 100%;
+  background-color: #505CFA;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.headerLeft {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.headerRight img {
+  width: 50px;
+  height: 50px;
+}
+
+/* Main Layout */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.dataContainer {
+  width: 100%;
+  max-width: 600px;
+  background: #BCE1FA;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input, select {
+  width: 90%;
+  max-width: 400px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #469CFA;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.resultArea {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  background-color: #469CFA;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 10px 20px;
-    background-color: #505CFA;
-    color: white;
-  }
-  
-  .headerRight img{
-    height: 31px;
-  }
-  
-  .main {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-    width: 20%;
-    max-width: 1200px;
-  }
-  
-  .dataContainer{
-    display: flex;
-    flex-direction: column;
-    row-gap: 15px;
+      flex-direction: column;
+      text-align: center;
   }
 
-  input{
-    padding: 2px;
+  .headerRight img {
+      width: 40px;
+      height: 40px;
   }
 
-  input::placeholder {
-    color: black;
-    font-size: 16px;
+  .dataContainer {
+      width: 95%;
   }
-  
-  .resultArea{
-    display: flex;
-    align-items: center;
-    height: 20px;
-    column-gap: 10px;
-    border: 1px, solid, black;
-    border-radius: 5px;
-    padding: 2px;
+}
+
+@media (max-width: 480px) {
+  .headerLeft {
+      font-size: 1.4rem;
   }
 
-  .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 10px 20px;
-    background-color: #FADB8D;
-    color: #505CFA;
+  input, select {
+      font-size: 0.9rem;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        text-align: center;
-    }
-  
-    .main {
-        gap: 15px;
-    }
-  
-    .footer {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
+
+  .dataContainer {
+      width: 90%;
   }
-  
-  @media (max-width: 480px) {
-    .aboutButton, .toolsButton, .nuclearFacilitiesButton, .FAQButton {
-        width: 60px;
-        height: 60px;
-    }
-  
-    .aboutButton img, .toolsButton img, .nuclearFacilitiesButton img, .FAQButton img {
-        width: 35px;
-        height: 35px;
-    }
+}
+
+/* Foldable Devices (Samsung Z Fold 6) */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  .header {
+      padding: 10px;
   }
-  
+
+  .dataContainer {
+      padding: 10px;
+  }
+}
+
+@media screen and (max-width: 1290px) and (orientation: landscape) {
+  .header {
+      padding: 20px;
+  }
+}
