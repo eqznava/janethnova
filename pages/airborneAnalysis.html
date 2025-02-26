@@ -14,7 +14,7 @@
     </header>
     <main class="main">
         <div class="dataContainer">
-            <label for="airSampleType">Select what type of air sampling was performed:</label>
+            <label for="idAirSample">Select what type of air sampling was performed:</label>
             <select name="airSample" id="idAirSample">
               <option value="beta">β-γ</option>
               <option value="alpha">α</option>
@@ -35,7 +35,7 @@
         <div class="dataContainer">
             <label class="subTitle">Start Date & Time:</label>
             <input type="date" name="startDate" id="idStartDate">
-            <input type="time" name="starTime" id="idStartTime">
+            <input type="time" name="startTime" id="idStartTime">
             <label class="subTitle">End Date & Time:</label>
             <input type="date" name="endDate" id="idEndDate">
             <input type="time" name="endTime" id="idEndTime">
@@ -58,14 +58,20 @@
             </div>
         </div>
         <div class="dataContainer">
-            <button onclick="calculateDAC()">Calcular</button>
+            <button id="calculateBtn">Calcular</button>
         </div>
-            </main>
+    </main>
     <footer class="footer">
         <div class="footerLeft">Developed by Jesus Arias Estrada and Sergio Arturo Enriquez Nava</div>
         <div class="footerRight">Copyright 2025</div>
     </footer>
+    
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../js/airBorneCal.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("calculateBtn").addEventListener("click", calculateDACFraction);
+        });
+    </script>
 </body>
 </html>
