@@ -1,53 +1,3 @@
-function calculateDACFraction() {
-    let ncpmInput = document.getElementById("idNcpm");
-    let netCount = parseFloat(ncpmInput.value) || 0;
-    let totalFlowOutput = document.querySelector(".totalFlow");
-    let totalVolume = parseFloat(totalFlowOutput.textContent) || 0;
-    let sampleType = document.getElementById("idAirSample").value; // Get selected value
-    const activityDpm = netCount/0.1;
-    const activityVolBeta = 2.22e-2;
-    const activityVolAlpha = 6.66e-6;
-
-    if (!sampleType) {
-        swal({
-            title: "Error",
-            text: "Please select an air sample type before calculating DAC Fraction.",
-            icon: "warning",
-            button: "OK",
-        });
-        return;
-    }
-
-    if (sampleType === "beta") { // Matches <option value="beta">
-        if (totalVolume > 0) {
-            let betaGamDacFraction = (activityDpm) / (totalVolume*activityVolBeta); // Replace with actual calculation
-            betaGamDacFraction = betaGamDacFraction.toFixed(4); // Round to 4 decimal places
-
-            // Display result in SweetAlert modal
-            swal({
-                title: "DAC Fraction Result",
-                text: `The calculated fraction of DAC is: ${betaGamDacFraction}`,
-                icon: "info",
-                button: "OK",
-            });
-        } else {
-            swal({
-                title: "Error",
-                text: "Please enter valid input values before calculating DAC Fraction.",
-                icon: "error",
-                button: "OK",
-            });
-        }
-    } else {
-        swal({
-            title: "Notice",
-            text: "The selected sample type is not applicable for DAC fraction calculation.",
-            icon: "warning",
-            button: "OK",
-        });
-    }
-}
-
 document.addEventListener("DOMContentLoaded", function() {
     // Elements for time calculation
     const startDate = document.getElementById("idStartDate");
@@ -59,15 +9,21 @@ document.addEventListener("DOMContentLoaded", function() {
     // Elements for flow rate calculation
     const flowRateInput = document.getElementById("idFlowRate");
     const flowUnitSelect = document.getElementById("idFlow");
-    const totalFlowOutput = document.querySelector(".totalFlow");
+    const volumeMlOutput = document.getElementById("idVolumeMl");
+    const volumeFtOutput = document.getElementById("idVolumeFt");
 
     // Elements for Net Count calculation
     const bkgCountsInput = document.getElementById("idBkgCounts");
     const countRateInput = document.getElementById("idCountRate");
-    const ncpmInput = document.getElementById("idNcpm");
+    const ncpmOutput = document.getElementById("idNcpm");
 
     // Get the "Calcular" button
     const calcularButton = document.getElementById("calculateBtn");
+
+    // Function to format numbers with commas for readability
+    function formatNumber(value) {
+        return value.toLocaleString('en-US');
+    }
 
     // Function to calculate total time in minutes
     function calculateTotalTime() {
@@ -76,32 +32,36 @@ document.addEventListener("DOMContentLoaded", function() {
             let end = new Date(`${endDate.value}T${endTime.value}`);
 
             if (end > start) {
-                let diffInMinutes = Math.round((end - start) / 60000); // Round to whole number
-                totalTimeOutput.textContent = diffInMinutes;
-                calculateVolume(); // Ensure volume updates with new time
+                let diffInMinutes = Math.round((end - start) / 60000);
+                totalTimeOutput.textContent = formatNumber(diffInMinutes);
+                calculateVolume(); // Update volume calculation
             } else {
                 totalTimeOutput.textContent = "Invalid";
             }
         }
     }
 
-    // Function to calculate volume based on flow rate and time
+    // Function to calculate volume in milliliters and cubic feet
     function calculateVolume() {
         let flowRate = parseFloat(flowRateInput.value);
-        let totalMinutes = parseInt(totalTimeOutput.textContent);
-        
+        let totalMinutes = parseInt(totalTimeOutput.textContent.replace(/,/g, ""));
+
         if (!isNaN(flowRate) && totalMinutes > 0) {
-            let totalVolume;
-            
+            let volumeMl, volumeFt;
+
             if (flowUnitSelect.value === "cfm") {
-                totalVolume = flowRate * totalMinutes * 28.3168*1000; // Convert CFM to Liters
+                volumeMl = flowRate * totalMinutes * 28.3168 * 1000; // Convert CFM to mL
+                volumeFt = flowRate * totalMinutes; // Directly in cubic feet
             } else {
-                totalVolume = flowRate * totalMinutes*1000; // LPM directly gives volume in mL
+                volumeMl = flowRate * totalMinutes * 1000; // LPM gives mL directly
+                volumeFt = volumeMl / (28.3168 * 1000); // Convert mL to ft³
             }
-            
-            totalFlowOutput.textContent = Math.round(totalVolume); // Rounded result
+
+            volumeMlOutput.textContent = formatNumber(Math.round(volumeMl)) + " ml";
+            volumeFtOutput.textContent = formatNumber(volumeFt.toFixed(4)) + " ft³";
         } else {
-            totalFlowOutput.textContent = "0";
+            volumeMlOutput.textContent = "0 ml";
+            volumeFtOutput.textContent = "0 ft³";
         }
     }
 
@@ -109,13 +69,71 @@ document.addEventListener("DOMContentLoaded", function() {
     function calculateActivity() {
         let bkgCounts = parseFloat(bkgCountsInput.value) || 0;
         let countRate = parseFloat(countRateInput.value) || 0;
+        let netCount = Math.max(Math.round(countRate - bkgCounts), 0);
 
-        let netCount = countRate - bkgCounts;
-        ncpmInput.value = Math.max(Math.round(netCount), 0); // Rounded and no negative values
+        ncpmOutput.textContent = formatNumber(netCount);
     }
 
-    // Function to calculate DAC Fraction and display it in SweetAlert
-    
+    // Function to calculate DAC Fraction and display in SweetAlert
+    function calculateDACFraction() {
+        let netCount = parseFloat(ncpmOutput.textContent.replace(/,/g, "")) || 0; // Read from <output>
+        let totalVolume = parseFloat(volumeMlOutput.textContent.replace(/,/g, "")) || 0;
+        let sampleType = document.getElementById("idAirSample").value;
+
+        // Constants
+        const activityDpm = netCount / 0.1;
+        const activityVolBeta = 2.22e-2;
+        const activityVolAlpha = 6.66e-6;
+
+        if (!sampleType) {
+            swal({
+                title: "Error",
+                text: "Please select an air sample type before calculating DAC Fraction.",
+                icon: "warning",
+                button: "OK",
+            });
+            return;
+        }
+
+        let dacFraction;
+        let resultTitle;
+
+        if (totalVolume > 0) {
+            if (sampleType === "beta") {
+                dacFraction = (activityDpm) / (totalVolume * activityVolBeta);
+                resultTitle = "Beta-Gamma DAC Fraction";
+            } else if (sampleType === "alpha") {
+                dacFraction = (activityDpm) / (totalVolume * activityVolAlpha);
+                resultTitle = "Alpha DAC Fraction";
+            } else {
+                swal({
+                    title: "Notice",
+                    text: "The selected sample type is not applicable for DAC fraction calculation.",
+                    icon: "warning",
+                    button: "OK",
+                });
+                return;
+            }
+
+            // Format as scientific notation
+            let formattedDacFraction = dacFraction.toFixed(3);
+
+            // Display result in SweetAlert
+            swal({
+                title: resultTitle,
+                text: `The calculated fraction of DAC is: ${formattedDacFraction}`,
+                icon: "info",
+                button: "OK",
+            });
+        } else {
+            swal({
+                title: "Error",
+                text: "Please enter valid input values before calculating DAC Fraction.",
+                icon: "error",
+                button: "OK",
+            });
+        }
+    }
 
     // Event listeners
     startDate.addEventListener("change", calculateTotalTime);

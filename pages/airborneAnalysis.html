@@ -30,7 +30,7 @@
         </div>
         <div class="dataContainer">
             <label for="ncpm">Net Count:</label>
-            <input type="number" id="idNcpm" name="ncpm" placeholder="0">
+            <output id="idNcpm">0</output>
         </div>
         <div class="dataContainer">
             <label class="subTitle">Start Date & Time:</label>
@@ -41,7 +41,7 @@
             <input type="time" name="endTime" id="idEndTime">
             <label class="totalTimeTitle">Air sample total time</label>
             <div class="resultArea">
-                <output class="totalTime">0&nbsp;</output><p>minutes</p>
+                <output class="totalTime"></output> <p>min</p>
             </div>
         </div>
         <div class="dataContainer">
@@ -54,7 +54,8 @@
             <input type="number" id="idFlowRate" name="flowRate" placeholder="0">
             <label class="totalFlowTitle">Volume:</label>
             <div class="resultArea">
-                <output class="totalFlow">0&nbsp;</output><p>ml</p>
+                <output class="totalFlow" id="idVolumeMl"></output> <p></p>
+                <output class="totalFlow" id="idVolumeFt"></output> <p></p>
             </div>
         </div>
         <div class="dataContainer">
@@ -68,10 +69,5 @@
     
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../js/airBorneCal.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("calculateBtn").addEventListener("click", calculateDACFraction);
-        });
-    </script>
 </body>
 </html>

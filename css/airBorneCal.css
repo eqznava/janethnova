@@ -74,11 +74,15 @@ input, select {
   outline: none;
 }
 
+output{
+  font-size: 1.2rem;
+}
+
 .resultArea {
   display: flex;
   align-items: center;
   font-size: 1.2rem;
-  font-weight: bold;
+  column-gap: 10px;
 }
 
 /* Button Styling */
