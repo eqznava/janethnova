@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (dacFraction < 0.3) {
                 swal({
                     title: resultTitle,
-                    text: `✅ The calculated fraction of DAC is: ${formattedDacFraction}`,
+                    text: `✅ The calculated fraction of DAC is: ${formattedDacFraction}.\n\n The sample is clean, work can continue with no problems`,
                     icon: "success",
                     button: "OK",
                 });
