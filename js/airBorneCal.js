@@ -115,16 +115,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
-            // Format as scientific notation
+            // Format DAC fraction normally
             let formattedDacFraction = dacFraction.toFixed(3);
 
-            // Display result in SweetAlert
-            swal({
-                title: resultTitle,
-                text: `The calculated fraction of DAC is: ${formattedDacFraction}`,
-                icon: "info",
-                button: "OK",
-            });
+            // 🚨 **Show different alerts based on DAC fraction value**
+            if (dacFraction < 0.3) {
+                swal({
+                    title: resultTitle,
+                    text: `✅ The calculated fraction of DAC is: ${formattedDacFraction}`,
+                    icon: "success",
+                    button: "OK",
+                });
+            } else {
+                swal({
+                    title: "⚠ STOP WORK IMMEDIATELY AND POST THE AREA AS ARA!",
+                    text: `🚨 The DAC fraction is ${formattedDacFraction}.\n\n⚠ Notify your immediate supervisor and perform a second sampling or backup before continuing.`,
+                    icon: "warning",
+                    button: "Understood",
+                });
+            }
         } else {
             swal({
                 title: "Error",
