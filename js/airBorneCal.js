@@ -102,8 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 volumeFt = volumeMl / (28.3168 * 1000);
             }
 
-            volumeMlOutput.textContent = formatNumber(volumeMl) + " ml";
-            volumeFtOutput.textContent = formatNumber(volumeFt) + " ft³";
+            volumeMlOutput.textContent = formatNumber(volumeMl.toFixed(0)) + " ml";
+            volumeFtOutput.textContent = formatNumber(volumeFt.toFixed(0)) + " ft³";
         } else {
             volumeMlOutput.textContent = "0 ml";
             volumeFtOutput.textContent = "0 ft³";
@@ -125,35 +125,46 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (bkgCounts > 200) {
-            swal({
-                title: "Warning",
-                text: "Background count rate is too high (>200 cpm). Verify background before proceeding.",
-                icon: "warning",
-                button: "Understood",
-            }).then(() => {
-                // ✅ Add link dynamically with search highlight
-                let link = document.createElement("a");
-                link.href = "https://westinghousenuclear.com/media/fflait0r/nisp-rp-002-rev-002-2024-02-06-final.pdf#search=6.2.2";
-                link.textContent = "Go to NISP-RP-002 Radiation & Contamination Surveys Section 6.2.2 (a & b)";
-                link.target = "_blank";
-                link.className = "nisp-link";
-                link.style.color = "#f776e6";
-                link.style.display = "block";
-                link.style.marginTop = "10px";
-                link.style.fontWeight = "bold";
-                link.style.textDecoration = "none";
+            // ✅ Show the alert only ONCE
+            if (!bkgCountsInput.dataset.warned) {
+                swal({
+                    title: "Warning",
+                    text: "Background count rate is too high (>200 cpm). Verify background before proceeding.",
+                    icon: "warning",
+                    button: "Understood",
+                });
+                bkgCountsInput.dataset.warned = "true";
+            }
 
-                // ✅ Append link below the output.units
-                unitsElement.insertAdjacentElement("afterend", link);
-            });
+            // ✅ Add link dynamically
+            let link = document.createElement("a");
+            link.href = "https://westinghousenuclear.com/media/fflait0r/nisp-rp-002-rev-002-2024-02-06-final.pdf#search=6.2.2";
+            link.textContent = "Go to NISP-RP-002 Radiation and Contamination Surveys Section 6.2.2 (a & b)";
+            link.target = "_blank";
+            link.className = "nisp-link";
+            link.style.color = "#f776e6";
+            link.style.display = "block";
+            link.style.marginTop = "10px";
+            link.style.fontWeight = "bold";
+            link.style.textDecoration = "none";
+
+            // ✅ Append link below the output.units
+            unitsElement.insertAdjacentElement("afterend", link);
+        } else {
+            bkgCountsInput.dataset.warned = ""; // Reset warning if background is normal
         }
 
         let netCount = Math.max(countRate - bkgCounts, 0);
         let dpmValue = netCount * 10;
 
-        ncpmOutput.textContent = formatNumber(netCount) + " ncpm";
-        dpmOutput.textContent = formatNumber(dpmValue) + " dpm";
+        ncpmOutput.textContent = formatNumber(netCount.toFixed(0)) + " ncpm";
+        dpmOutput.textContent = formatNumber(dpmValue.toFixed(0)) + " dpm";
     }
+
+    // ✅ Ensure count rate remains editable at all times
+    countRateInput.addEventListener("input", function () {
+        calculateActivity();
+    });
 
     // ✅ Event Listeners
     instrumentSelect.addEventListener("change", updateInstrumentSettings);
