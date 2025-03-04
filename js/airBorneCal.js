@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             let diffInMinutes = Math.round((end - start) / 60000);
-            totalTimeOutput.textContent = formatNumber(diffInMinutes.toFixed(0));
+            totalTimeOutput.textContent = formatNumber(diffInMinutes);
             calculateVolume();
         }
     }
@@ -102,8 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 volumeFt = volumeMl / (28.3168 * 1000);
             }
 
-            volumeMlOutput.textContent = formatNumber(volumeMl.toFixed(0)) + " ml";
-            volumeFtOutput.textContent = formatNumber(volumeFt.toFixed(0)) + " ft³";
+            volumeMlOutput.textContent = formatNumber(volumeMl) + " ml";
+            volumeFtOutput.textContent = formatNumber(volumeFt) + " ft³";
         } else {
             volumeMlOutput.textContent = "0 ml";
             volumeFtOutput.textContent = "0 ft³";
@@ -115,59 +115,54 @@ document.addEventListener("DOMContentLoaded", function () {
         let bkgCounts = parseFloat(bkgCountsInput.value) || 0;
         let countRate = parseFloat(countRateInput.value) || 0;
 
-        if (bkgCounts > 200 && !bkgCountsInput.dataset.warned) {
+        let parentElement = bkgCountsInput.closest(".dataContainer");
+        let unitsElement = parentElement.querySelector(".units");
+
+        // Remove the link if it exists
+        let existingLink = parentElement.querySelector(".nisp-link");
+        if (existingLink) {
+            existingLink.remove();
+        }
+
+        if (bkgCounts > 200) {
             swal({
                 title: "Warning",
                 text: "Background count rate is too high (>200 cpm). Verify background before proceeding.",
                 icon: "warning",
                 button: "Understood",
+            }).then(() => {
+                // ✅ Add link dynamically with search highlight
+                let link = document.createElement("a");
+                link.href = "https://westinghousenuclear.com/media/fflait0r/nisp-rp-002-rev-002-2024-02-06-final.pdf#search=6.2.2";
+                link.textContent = "Go to NISP-RP-002 Radiation & Contamination Surveys Section 6.2.2 (a & b)";
+                link.target = "_blank";
+                link.className = "nisp-link";
+                link.style.color = "#f776e6";
+                link.style.display = "block";
+                link.style.marginTop = "10px";
+                link.style.fontWeight = "bold";
+                link.style.textDecoration = "none";
+
+                // ✅ Append link below the output.units
+                unitsElement.insertAdjacentElement("afterend", link);
             });
-            bkgCountsInput.dataset.warned = "true";
         }
 
         let netCount = Math.max(countRate - bkgCounts, 0);
         let dpmValue = netCount * 10;
 
-        ncpmOutput.textContent = formatNumber(netCount.toFixed(0)) + " ncpm";
-        dpmOutput.textContent = formatNumber(dpmValue.toFixed(0)) + " dpm";
-    }
-
-    // ✅ Function to calculate DAC Fraction
-    function calculateDACFraction() {
-        let netCount = parseFloat(ncpmOutput.textContent.replace(/,/g, "")) || 0;
-        let totalVolume = parseFloat(volumeMlOutput.textContent.replace(/,/g, "")) || 0;
-        let sampleType = airSampleSelect.value;
-
-        const activityDpm = netCount / 0.1;
-        const activityVolBeta = 2.22e-2;
-        const activityVolAlpha = 6.66e-6;
-
-        let dacFraction = sampleType === "beta"
-            ? (activityDpm) / (totalVolume * activityVolBeta)
-            : (activityDpm) / (totalVolume * activityVolAlpha);
-
-        let formattedDacFraction = formatNumber(dacFraction);
-        let resultTitle = sampleType === "beta" ? "Beta-Gamma DAC Fraction" : "Alpha DAC Fraction";
-
-        swal({
-            title: resultTitle,
-            text: `✅ The calculated DAC fraction is: ${formattedDacFraction}.`,
-            icon: dacFraction < 0.3 ? "success" : "warning",
-            button: "OK",
-            className: dacFraction < 0.3 ? "green-alert" : "magenta-alert",
-        });
+        ncpmOutput.textContent = formatNumber(netCount) + " ncpm";
+        dpmOutput.textContent = formatNumber(dpmValue) + " dpm";
     }
 
     // ✅ Event Listeners
     instrumentSelect.addEventListener("change", updateInstrumentSettings);
     startDate.addEventListener("change", calculateTotalTime);
-    startTime.addEventListener("change", calculateTotalTime);
     endDate.addEventListener("change", calculateTotalTime);
-    endTime.addEventListener("change", calculateTotalTime);
     flowRateInput.addEventListener("input", calculateVolume);
     countRateInput.addEventListener("input", calculateActivity);
     bkgCountsInput.addEventListener("input", calculateActivity);
-    calcularButton.addEventListener("click", calculateDACFraction);
+    calcularButton.addEventListener("click", calculateVolume);
 
     // Initialize settings
     updateInstrumentSettings();

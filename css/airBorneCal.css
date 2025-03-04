@@ -368,11 +368,11 @@ button:hover {
 
 /* Alertas personalizadas para DAC Fraction */
 .swal-modal.green-alert {
-  background-color: #d4edda !important; /* Verde suave */
+  background-color: #a5ffba !important; /* Verde suave */
 }
 
 .swal-modal.magenta-alert {
-  background-color: #f8d7da !important; /* Magenta suave */
+  background-color: #f776e6 !important; /* Magenta suave */
 }
 
 /* Responsive Design */
