@@ -353,6 +353,10 @@ button:hover {
   background-color: #469CFA;
 }
 
+.resultArea p{
+  font-weight: bold;
+}
+
 /* Footer */
 .footer {
   width: 100%;
@@ -360,6 +364,15 @@ button:hover {
   color: white;
   text-align: center;
   padding: 10px;
+}
+
+/* Alertas personalizadas para DAC Fraction */
+.swal-modal.green-alert {
+  background-color: #d4edda !important; /* Verde suave */
+}
+
+.swal-modal.magenta-alert {
+  background-color: #f8d7da !important; /* Magenta suave */
 }
 
 /* Responsive Design */

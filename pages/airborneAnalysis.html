@@ -14,14 +14,14 @@
     </header>
     <main class="main">
         <div class="instrumentData">
-            <div class="dataContainer"> 
+            <div class="dataContainer">
                 <label for="idInstrument">Instrument used:</label>
                 <select name="instrument" id="idInstrument">
                     <option value="frisker">Frisker</option>
                     <option value="scaler">Scaler</option>
                 </select>
             </div>
-            <div class="dataContainer"> 
+            <div class="dataContainer">
                 <label for="idAirSample">Particulate in the air:</label>
                 <select name="airSample" id="idAirSample">
                     <option value="beta">β-γ</option>
@@ -41,14 +41,17 @@
             <div class="dataContainer">
                 <label for="eff">Efficiency:</label>
                 <input type="text" id="idEff" name="eff" placeholder="0" inputmode="decimal">
+                <output class="units">%</output>
             </div>
             <div class="dataContainer">
                 <label for="ncpm">Net Count:</label>
                 <output id="idNcpm">0</output>
+                <output class="units">ncpm</output>
                 <output id="idDpm">0</output>
+                <output class="units">dpm</output>
             </div>
         </div>
-        
+
         <div class="sampleData">
             <div class="dataContainer">
                 <label class="subTitle">Start Date & Time:</label>
@@ -61,6 +64,21 @@
                 <div class="resultArea">
                     <output class="totalTime"></output> <p>min</p>
                 </div>
+            </div>
+        </div>
+
+        <div class="dataContainer">
+            <label for="flow">What units are you using?</label>
+            <select name="flow" id="idFlow">
+                <option value="cfm">CFM</option>
+                <option value="lpm">LPM</option>
+            </select>
+            <label for="flowRate">Flow Rate:</label>
+            <input type="text" id="idFlowRate" name="flowRate" placeholder="0" inputmode="decimal">
+            <label class="totalFlowTitle">Volume:</label>
+            <div class="resultArea">
+                <output class="totalFlow" id="idVolumeMl"></output> <p></p>
+                <output class="totalFlow" id="idVolumeFt"></output> <p></p>
             </div>
         </div>
 
