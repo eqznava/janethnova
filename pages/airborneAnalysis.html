@@ -13,51 +13,57 @@
         <div class="headerRight"><img src="../img/radioactive.png" alt="radiation"></div>
     </header>
     <main class="main">
-        <div class="dataContainer">
-            <label for="idAirSample">Select what type of air sampling was performed:</label>
-            <select name="airSample" id="idAirSample">
-                <option value="beta">β-γ</option>
-                <option value="alpha">α</option>
-            </select>
-        </div>
-        <div class="dataContainer">
-            <label for="bkgCounts">Frisker Background Counts:</label>
-            <input type="text" id="idBkgCounts" name="bkgCounts" placeholder="0" inputmode="decimal">
-        </div>
-        <div class="dataContainer">
-            <label for="countRate">Frisker Count Rate:</label>
-            <input type="text" id="idCountRate" name="countRate" placeholder="0" inputmode="decimal">
-        </div>
-        <div class="dataContainer">
-            <label for="ncpm">Net Count:</label>
-            <output id="idNcpm">0</output>
-        </div>
-        <div class="dataContainer">
-            <label class="subTitle">Start Date & Time:</label>
-            <input type="date" name="startDate" id="idStartDate">
-            <input type="time" name="startTime" id="idStartTime">
-            <label class="subTitle">End Date & Time:</label>
-            <input type="date" name="endDate" id="idEndDate">
-            <input type="time" name="endTime" id="idEndTime">
-            <label class="totalTimeTitle">Air sample total time</label>
-            <div class="resultArea">
-                <output class="totalTime"></output> <p>min</p>
+        <div class="instrumentData">
+            <div class="dataContainer"> 
+                <label for="idInstrument">Instrument used:</label>
+                <select name="instrument" id="idInstrument">
+                    <option value="frisker">Frisker</option>
+                    <option value="scaler">Scaler</option>
+                </select>
+            </div>
+            <div class="dataContainer"> 
+                <label for="idAirSample">Particulate in the air:</label>
+                <select name="airSample" id="idAirSample">
+                    <option value="beta">β-γ</option>
+                    <option value="alpha">α</option>
+                </select>
+            </div>
+            <div class="dataContainer">
+                <label for="bkgCounts">Background Counts:</label>
+                <input type="text" id="idBkgCounts" name="bkgCounts" placeholder="0" inputmode="decimal">
+                <output class="units">cpm</output>
+            </div>
+            <div class="dataContainer">
+                <label for="countRate">Count Rate:</label>
+                <input type="text" id="idCountRate" name="countRate" placeholder="0" inputmode="decimal">
+                <output class="units">cpm</output>
+            </div>
+            <div class="dataContainer">
+                <label for="eff">Efficiency:</label>
+                <input type="text" id="idEff" name="eff" placeholder="0" inputmode="decimal">
+            </div>
+            <div class="dataContainer">
+                <label for="ncpm">Net Count:</label>
+                <output id="idNcpm">0</output>
+                <output id="idDpm">0</output>
             </div>
         </div>
-        <div class="dataContainer">
-            <label for="flow">What units are you using?</label>
-            <select name="flow" id="idFlow">
-                <option value="cfm">CFM</option>
-                <option value="lpm">LPM</option>
-            </select>
-            <label for="flowRate">Flow Rate:</label>
-            <input type="text" id="idFlowRate" name="flowRate" placeholder="0" inputmode="decimal">
-            <label class="totalFlowTitle">Volume:</label>
-            <div class="resultArea">
-                <output class="totalFlow" id="idVolumeMl"></output> <p>ml</p>
-                <output class="totalFlow" id="idVolumeFt"></output> <p>ft³</p>
+        
+        <div class="sampleData">
+            <div class="dataContainer">
+                <label class="subTitle">Start Date & Time:</label>
+                <input type="date" name="startDate" id="idStartDate">
+                <input type="time" name="startTime" id="idStartTime">
+                <label class="subTitle">End Date & Time:</label>
+                <input type="date" name="endDate" id="idEndDate">
+                <input type="time" name="endTime" id="idEndTime">
+                <label class="totalTimeTitle">Total Sample Time</label>
+                <div class="resultArea">
+                    <output class="totalTime"></output> <p>min</p>
+                </div>
             </div>
         </div>
+
         <div class="dataContainer">
             <button id="calculateBtn">Calcular</button>
         </div>
@@ -69,38 +75,5 @@
     
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../js/airBorneCal.js"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Secure all number inputs
-            document.querySelectorAll("input[type='number']").forEach(input => {
-                input.addEventListener("input", function() {
-                    this.value = this.value.replace(/[e\+\-]/gi, ""); // Blocks "e", "+", and "-" (stops exponential notation)
-                    if (parseFloat(this.value) < parseFloat(this.min)) {
-                        this.value = this.min; // Auto-corrects values below the allowed min
-                    }
-                });
-            });
-
-            // Function to prevent script injection
-            document.querySelectorAll("input").forEach(input => {
-                input.addEventListener("input", function() {
-                    this.value = this.value.replace(/<.*?>|[<>]/g, ""); // Removes HTML tags and "< >"
-                });
-            });
-
-            // Function to calculate Net Count (Ncpm)
-            function calculateActivity() {
-                let bkgCounts = parseFloat(document.getElementById("idBkgCounts").value) || 0;
-                let countRate = parseFloat(document.getElementById("idCountRate").value) || 0;
-                let netCount = Math.max(Math.round(countRate - bkgCounts), 0);
-                document.getElementById("idNcpm").textContent = netCount.toLocaleString("en-US");
-            }
-
-            document.getElementById("idCountRate").addEventListener("input", calculateActivity);
-            document.getElementById("idBkgCounts").addEventListener("input", calculateActivity);
-        });
-    </script>
-
 </body>
 </html>

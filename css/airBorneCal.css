@@ -8,6 +8,235 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.6;
+}
+
+/* Header */
+.header {
+  width: 100%;
+  background-color: #505CFA;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.headerLeft {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.headerRight img {
+  width: 50px;
+  height: 50px;
+}
+
+/* Main Content */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  max-width: 900px;
+  width: 90%;
+  padding: 20px;
+  text-align: center;
+}
+
+.instrumentData, .sampleData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  width: -webkit-fill-available;
+}
+
+/* Styled Containers for Inputs */
+.dataContainer {
+  width: 100%;
+  max-width: 600px;
+  background: #BCE1FA;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Labels */
+label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Inputs and Dropdowns */
+input, select {
+  width: 90%;
+  max-width: 400px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #469CFA;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  outline: none;
+  text-align: center;
+}
+
+/* Ensure Efficiency Input is Grayed Out when Disabled */
+input[disabled] {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+}
+
+/* Outputs for Results */
+output {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Result Area for Outputs */
+.resultArea {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  column-gap: 10px;
+  justify-content: center;
+}
+
+/* 🔥 Special Styling for Background & Count Rate Inputs */
+.inputWithUnit {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.inputWithUnit input {
+  text-align: right;
+  flex: 1;
+}
+
+.inputWithUnit span {
+  margin-left: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* 🔥 Ensure Net Counts Display Properly */
+.outputWithUnit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.outputWithUnit output {
+  text-align: right;
+}
+
+/* Button Styling */
+button {
+  background-color: #505CFA;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #469CFA;
+}
+
+/* ⚠ Alert Styling for High Background Counts */
+.alert {
+  background-color: #FFA500;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: none;
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  background-color: #469CFA;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .headerRight img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dataContainer {
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerLeft {
+    font-size: 1.4rem;
+  }
+
+  input, select {
+    font-size: 0.9rem;
+  }
+
+  .dataContainer {
+    width: 90%;
+  }
+}
+
+/* Foldable Devices (Samsung Z Fold 6) */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  .header {
+    padding: 10px;
+  }
+  
+  .dataContainer {
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 1290px) and (orientation: landscape) {
+  .header {
+    padding: 20px;
+  }
+}/* General Styles */
+body {
+  font-family: 'Outfit', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   -webkit-text-size-adjust: 100%; /* Prevents zoom issues on iOS */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -38,10 +267,22 @@ body {
 
 /* Main Content */
 .main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 900px;
   width: 90%;
   padding: 20px;
   text-align: center;
+}
+
+/* Instrument and Sample Data */
+.instrumentData, .sampleData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  width: -webkit-fill-available;
 }
 
 .dataContainer {
@@ -72,12 +313,22 @@ input, select {
   border-radius: 5px;
   margin-bottom: 10px;
   outline: none;
+  text-align: left;
 }
 
-output{
+output {
   font-size: 1.2rem;
+  font-weight: bold;
 }
 
+.units {
+  font-size: 1rem;
+  color: #505CFA;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+/* Result Area */
 .resultArea {
   display: flex;
   align-items: center;
@@ -102,36 +353,6 @@ button:hover {
   background-color: #469CFA;
 }
 
-/* Modal Styling */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 80%;
-  max-width: 500px;
-  text-align: center;
-}
-
-.modal button {
-  background-color: #469CFA;
-  margin-top: 10px;
-}
-
 /* Footer */
 .footer {
   width: 100%;
@@ -144,47 +365,47 @@ button:hover {
 /* Responsive Design */
 @media (max-width: 768px) {
   .header {
-      flex-direction: column;
-      text-align: center;
+    flex-direction: column;
+    text-align: center;
   }
 
   .headerRight img {
-      width: 40px;
-      height: 40px;
+    width: 40px;
+    height: 40px;
   }
 
   .dataContainer {
-      width: 95%;
+    width: 95%;
   }
 }
 
 @media (max-width: 480px) {
   .headerLeft {
-      font-size: 1.4rem;
+    font-size: 1.4rem;
   }
 
   input, select {
-      font-size: 0.9rem;
+    font-size: 0.9rem;
   }
 
   .dataContainer {
-      width: 90%;
+    width: 90%;
   }
 }
 
-/* Foldable Devices (Samsung Z Fold 6) */
+/* Foldable Devices */
 @media screen and (max-width: 600px) and (orientation: portrait) {
   .header {
-      padding: 10px;
+    padding: 10px;
   }
   
   .dataContainer {
-      padding: 10px;
+    padding: 10px;
   }
 }
 
 @media screen and (max-width: 1290px) and (orientation: landscape) {
   .header {
-      padding: 20px;
+    padding: 20px;
   }
 }

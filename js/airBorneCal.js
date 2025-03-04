@@ -1,52 +1,78 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Elements for time calculation
+document.addEventListener("DOMContentLoaded", function () {
+    // Elements for Instrument & Air Sample Selection
+    const instrumentSelect = document.getElementById("idInstrument");
+    const airSampleSelect = document.getElementById("idAirSample");
+    const efficiencyInput = document.getElementById("idEff");
+
+    // Elements for Background & Count Rate
+    const bkgCountsInput = document.getElementById("idBkgCounts");
+    const countRateInput = document.getElementById("idCountRate");
+    const ncpmOutput = document.getElementById("idNcpm");
+    const dpmOutput = document.getElementById("idDpm");
+
+    // Elements for Time Calculation
     const startDate = document.getElementById("idStartDate");
     const startTime = document.getElementById("idStartTime");
     const endDate = document.getElementById("idEndDate");
     const endTime = document.getElementById("idEndTime");
     const totalTimeOutput = document.querySelector(".totalTime");
 
-    // Elements for flow rate calculation
+    // Elements for Flow Rate Calculation
     const flowRateInput = document.getElementById("idFlowRate");
     const flowUnitSelect = document.getElementById("idFlow");
     const volumeMlOutput = document.getElementById("idVolumeMl");
     const volumeFtOutput = document.getElementById("idVolumeFt");
 
-    // Elements for Net Count calculation
-    const bkgCountsInput = document.getElementById("idBkgCounts");
-    const countRateInput = document.getElementById("idCountRate");
-    const ncpmOutput = document.getElementById("idNcpm");
-
     // Get the "Calcular" button
     const calcularButton = document.getElementById("calculateBtn");
 
-    // ✅ Function to format numbers with commas for readability
+    // ✅ Function to format numbers with commas and decimals
     function formatNumber(value) {
-        return value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+        return value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 4 });
     }
 
-    // ✅ Function to allow only numbers & decimals in input fields
+    // ✅ Restrict inputs to numbers & decimals
     function validateNumberInput(event) {
         let inputValue = event.target.value;
 
         // Remove invalid characters (allow only numbers and one decimal point)
-        inputValue = inputValue.replace(/[^0-9.]/g, '');
+        inputValue = inputValue.replace(/[^0-9.]/g, "");
 
         // Ensure only one decimal point is allowed
         if ((inputValue.match(/\./g) || []).length > 1) {
-            inputValue = inputValue.substring(0, inputValue.lastIndexOf('.'));
+            inputValue = inputValue.substring(0, inputValue.lastIndexOf("."));
         }
 
         // Update the input field value
         event.target.value = inputValue;
     }
 
-    // ✅ Apply validation to all relevant input fields
-    document.querySelectorAll("input[type='text']").forEach(input => {
+    // Apply validation to all relevant input fields
+    document.querySelectorAll("input[type='text']").forEach((input) => {
         input.addEventListener("input", validateNumberInput);
     });
 
-    // ✅ Function to calculate total time in minutes
+    // ✅ Function to update UI when Instrument is selected
+    function updateInstrumentSettings() {
+        if (instrumentSelect.value === "frisker") {
+            // Only show Beta-Gamma for Frisker
+            airSampleSelect.value = "beta";
+            airSampleSelect.querySelector("option[value='alpha']").disabled = true;
+
+            // Auto-set Efficiency to 10%
+            efficiencyInput.value = "0.1";
+            efficiencyInput.disabled = true;
+        } else {
+            // Allow selecting Alpha for Scaler
+            airSampleSelect.querySelector("option[value='alpha']").disabled = false;
+
+            // Allow Efficiency to be manually entered
+            efficiencyInput.value = "";
+            efficiencyInput.disabled = false;
+        }
+    }
+
+    // ✅ Function to calculate total sample time in minutes
     function calculateTotalTime() {
         if (startDate.value && startTime.value && endDate.value && endTime.value) {
             let start = new Date(`${startDate.value}T${startTime.value}`);
@@ -78,8 +104,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 volumeFt = volumeMl / (28.3168 * 1000); // Convert mL to ft³
             }
 
-            volumeMlOutput.textContent = formatNumber(volumeMl) + " ml";
-            volumeFtOutput.textContent = formatNumber(volumeFt.toFixed(4)) + " ft³";
+            volumeMlOutput.textContent = formatNumber(volumeMl.toFixed(0)) + " ml";
+            volumeFtOutput.textContent = formatNumber(volumeFt.toFixed(0)) + " ft³";
         } else {
             volumeMlOutput.textContent = "0 ml";
             volumeFtOutput.textContent = "0 ft³";
@@ -90,16 +116,31 @@ document.addEventListener("DOMContentLoaded", function() {
     function calculateActivity() {
         let bkgCounts = parseFloat(bkgCountsInput.value) || 0;
         let countRate = parseFloat(countRateInput.value) || 0;
-        let netCount = Math.max((countRate - bkgCounts).toFixed(2), 0);
 
-        ncpmOutput.textContent = formatNumber(netCount);
+        // Alert if Background is too high
+        if (bkgCounts > 200) {
+            swal({
+                title: "Warning",
+                text: "Background count rate is too high (>200 cpm). Verify background before proceeding.",
+                icon: "warning",
+                button: "Understood",
+            });
+        }
+
+        // Calculate Net Count & DPM
+        let netCount = Math.max(countRate - bkgCounts, 0);
+        let dpmValue = netCount * 10; // Convert ncpm to dpm
+
+        // Update Outputs
+        ncpmOutput.textContent = formatNumber(netCount.toFixed(0)) + " ncpm";
+        dpmOutput.textContent = formatNumber(dpmValue.toFixed(0)) + " dpm";
     }
 
-    // ✅ Function to calculate DAC Fraction and display result
+    // ✅ Function to calculate DAC Fraction and display results
     function calculateDACFraction() {
         let netCount = parseFloat(ncpmOutput.textContent.replace(/,/g, "")) || 0;
         let totalVolume = parseFloat(volumeMlOutput.textContent.replace(/,/g, "")) || 0;
-        let sampleType = document.getElementById("idAirSample").value;
+        let sampleType = airSampleSelect.value;
 
         // Constants
         const activityDpm = netCount / 0.1;
@@ -116,65 +157,40 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        let dacFraction;
-        let resultTitle;
+        let dacFraction = sampleType === "beta"
+            ? (activityDpm) / (totalVolume * activityVolBeta)
+            : (activityDpm) / (totalVolume * activityVolAlpha);
 
-        if (totalVolume > 0) {
-            if (sampleType === "beta") {
-                dacFraction = (activityDpm) / (totalVolume * activityVolBeta);
-                resultTitle = "Beta-Gamma DAC Fraction";
-            } else if (sampleType === "alpha") {
-                dacFraction = (activityDpm) / (totalVolume * activityVolAlpha);
-                resultTitle = "Alpha DAC Fraction";
-            } else {
-                swal({
-                    title: "Notice",
-                    text: "The selected sample type is not applicable for DAC fraction calculation.",
-                    icon: "warning",
-                    button: "OK",
-                });
-                return;
-            }
+        let formattedDacFraction = dacFraction.toFixed(3);
+        let resultTitle = sampleType === "beta" ? "Beta-Gamma DAC Fraction" : "Alpha DAC Fraction";
 
-            // Format DAC fraction normally
-            let formattedDacFraction = dacFraction.toFixed(3);
-
-            // 🚨 Show different alerts based on DAC fraction value
-            if (dacFraction < 0.3) {
-                swal({
-                    title: resultTitle,
-                    text: `✅ The calculated fraction of DAC is: ${formattedDacFraction}.\n\n The sample is clean, work can continue with no problems`,
-                    icon: "success",
-                    button: "OK",
-                });
-            } else {
-                swal({
-                    title: "⚠ STOP WORK IMMEDIATELY!",
-                    text: `🚨 The DAC fraction is ${formattedDacFraction}.\n\n⚠ Post as ARA and notify your immediate supervisor and perform a second sampling or backup before continuing.`,
-                    icon: "warning",
-                    button: "Understood",
-                });
-            }
+        if (dacFraction < 0.3) {
+            swal({
+                title: resultTitle,
+                text: `✅ The calculated DAC fraction is: ${formattedDacFraction}. The sample is clean.`,
+                icon: "success",
+                button: "OK",
+            });
         } else {
             swal({
-                title: "Error",
-                text: "Please enter valid input values before calculating DAC Fraction.",
-                icon: "error",
-                button: "OK",
+                title: "⚠ STOP WORK!",
+                text: `🚨 DAC fraction is ${formattedDacFraction}. Notify supervisor and take a second sample.`,
+                icon: "warning",
+                button: "Understood",
             });
         }
     }
 
-    // ✅ Event listeners
+    // ✅ Event Listeners
+    instrumentSelect.addEventListener("change", updateInstrumentSettings);
     startDate.addEventListener("change", calculateTotalTime);
     startTime.addEventListener("change", calculateTotalTime);
     endDate.addEventListener("change", calculateTotalTime);
     endTime.addEventListener("change", calculateTotalTime);
-    flowRateInput.addEventListener("input", calculateVolume);
-    flowUnitSelect.addEventListener("change", calculateVolume);
     countRateInput.addEventListener("input", calculateActivity);
     bkgCountsInput.addEventListener("input", calculateActivity);
-
-    // ✅ Attach event listener to the "Calcular" button
     calcularButton.addEventListener("click", calculateDACFraction);
+
+    // Initialize settings
+    updateInstrumentSettings();
 });
