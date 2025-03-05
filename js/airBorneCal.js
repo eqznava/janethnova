@@ -70,19 +70,17 @@ document.addEventListener("DOMContentLoaded", function () {
             let start = new Date(`${startDate.value}T${startTime.value}`);
             let end = new Date(`${endDate.value}T${endTime.value}`);
 
-            if (end < start) {
-                swal({
-                    title: "Error",
-                    text: "End time cannot be earlier than start time.",
-                    icon: "error",
-                    button: "OK",
-                });
+            if (isNaN(start) || isNaN(end) || end <= start) {
+                totalTimeOutput.textContent = "0"; 
                 return;
             }
 
             let diffInMinutes = Math.round((end - start) / 60000);
             totalTimeOutput.textContent = formatNumber(diffInMinutes);
+
             calculateVolume();
+        } else {
+            totalTimeOutput.textContent = "0"; 
         }
     }
 
@@ -110,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // ✅ Function to calculate Net Count (Ncpm)
+    // ✅ Function to calculate Net Count (Ncpm) & handle Background Alert
     function calculateActivity() {
         let bkgCounts = parseFloat(bkgCountsInput.value) || 0;
         let countRate = parseFloat(countRateInput.value) || 0;
@@ -125,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (bkgCounts > 200) {
-            // ✅ Show the alert only ONCE
             if (!bkgCountsInput.dataset.warned) {
                 swal({
                     title: "Warning",
@@ -136,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 bkgCountsInput.dataset.warned = "true";
             }
 
-            // ✅ Add link dynamically
+            // ✅ Add reference link dynamically
             let link = document.createElement("a");
             link.href = "https://westinghousenuclear.com/media/fflait0r/nisp-rp-002-rev-002-2024-02-06-final.pdf#search=6.2.2";
             link.textContent = "Go to NISP-RP-002 Radiation and Contamination Surveys Section 6.2.2 (a & b)";
@@ -148,10 +145,9 @@ document.addEventListener("DOMContentLoaded", function () {
             link.style.fontWeight = "bold";
             link.style.textDecoration = "none";
 
-            // ✅ Append link below the output.units
             unitsElement.insertAdjacentElement("afterend", link);
         } else {
-            bkgCountsInput.dataset.warned = ""; // Reset warning if background is normal
+            bkgCountsInput.dataset.warned = ""; 
         }
 
         let netCount = Math.max(countRate - bkgCounts, 0);
@@ -166,15 +162,54 @@ document.addEventListener("DOMContentLoaded", function () {
         calculateActivity();
     });
 
+    function calculateDACFraction() {
+        let netCount = parseFloat(ncpmOutput.textContent.replace(/,/g, "")) || 0;
+        let totalVolume = parseFloat(volumeMlOutput.textContent.replace(/,/g, "")) || 0;
+        let sampleType = airSampleSelect.value;
+
+        if (totalVolume === 0) {
+            swal({
+                title: "Error",
+                text: "Volume cannot be zero. Ensure sample time and flow rate are correct.",
+                icon: "error",
+                button: "OK",
+            });
+            return;
+        }
+
+        const activityDpm = netCount / 0.1;
+        const activityVolBeta = 2.22e-2;
+        const activityVolAlpha = 6.66e-6;
+
+        let dacFraction = sampleType === "beta"
+            ? (activityDpm) / (totalVolume * activityVolBeta)
+            : (activityDpm) / (totalVolume * activityVolAlpha);
+
+        let formattedDacFraction = formatNumber(dacFraction);
+        let resultTitle = sampleType === "beta" ? "Beta-Gamma DAC Fraction" : "Alpha DAC Fraction";
+
+        swal({
+            title: resultTitle,
+            text: `✅ The calculated DAC fraction is: ${formattedDacFraction}.`,
+            icon: dacFraction < 0.3 ? "success" : "warning",
+            button: "OK",
+            className: dacFraction < 0.3 ? "green-alert" : "magenta-alert",
+        });
+    }
+
     // ✅ Event Listeners
     instrumentSelect.addEventListener("change", updateInstrumentSettings);
     startDate.addEventListener("change", calculateTotalTime);
+    startTime.addEventListener("change", calculateTotalTime);
     endDate.addEventListener("change", calculateTotalTime);
+    endTime.addEventListener("change", calculateTotalTime);
     flowRateInput.addEventListener("input", calculateVolume);
+    flowUnitSelect.addEventListener("change", calculateVolume);
     countRateInput.addEventListener("input", calculateActivity);
     bkgCountsInput.addEventListener("input", calculateActivity);
-    calcularButton.addEventListener("click", calculateVolume);
-
-    // Initialize settings
+    calcularButton.addEventListener("click", function () {
+        calculateVolume();
+        calculateDACFraction();
+    });
     updateInstrumentSettings();
 });
