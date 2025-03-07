@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             let diffInMinutes = Math.round((end - start) / 60000);
-            totalTimeOutput.textContent = formatNumber(diffInMinutes);
+            totalTimeOutput.textContent = formatNumber(diffInMinutes.toFixed(0));
 
             calculateVolume();
         } else {
@@ -108,54 +108,59 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // ✅ Function to calculate Net Count (Ncpm) & handle Background Alert
-    function calculateActivity() {
-        let bkgCounts = parseFloat(bkgCountsInput.value) || 0;
-        let countRate = parseFloat(countRateInput.value) || 0;
+// ✅ Function to calculate Net Count (Ncpm) & handle Background Alert
+function calculateActivity() {
+    let bkgCounts = parseFloat(bkgCountsInput.value) || 0;
+    let countRate = parseFloat(countRateInput.value) || 0;
 
-        let parentElement = bkgCountsInput.closest(".dataContainer");
-        let unitsElement = parentElement.querySelector(".units");
+    let parentElement = bkgCountsInput.closest(".dataContainer");
+    let unitsElement = parentElement.querySelector(".units");
 
-        // Remove the link if it exists
-        let existingLink = parentElement.querySelector(".nisp-link");
-        if (existingLink) {
-            existingLink.remove();
-        }
-
-        if (bkgCounts > 200) {
-            if (!bkgCountsInput.dataset.warned) {
-                swal({
-                    title: "Warning",
-                    text: "Background count rate is too high (>200 cpm). Verify background before proceeding.",
-                    icon: "warning",
-                    button: "Understood",
-                });
-                bkgCountsInput.dataset.warned = "true";
-            }
-
-            // ✅ Add reference link dynamically
-            let link = document.createElement("a");
-            link.href = "https://westinghousenuclear.com/media/fflait0r/nisp-rp-002-rev-002-2024-02-06-final.pdf#search=6.2.2";
-            link.textContent = "Go to NISP-RP-002 Radiation and Contamination Surveys Section 6.2.2 (a & b)";
-            link.target = "_blank";
-            link.className = "nisp-link";
-            link.style.color = "#f776e6";
-            link.style.display = "block";
-            link.style.marginTop = "10px";
-            link.style.fontWeight = "bold";
-            link.style.textDecoration = "none";
-
-            unitsElement.insertAdjacentElement("afterend", link);
-        } else {
-            bkgCountsInput.dataset.warned = ""; 
-        }
-
-        let netCount = Math.max(countRate - bkgCounts, 0);
-        let dpmValue = netCount * 10;
-
-        ncpmOutput.textContent = formatNumber(netCount.toFixed(0)) + " ncpm";
-        dpmOutput.textContent = formatNumber(dpmValue.toFixed(0)) + " dpm";
+    // Remove the link if it exists
+    let existingLink = parentElement.querySelector(".nisp-link");
+    if (existingLink) {
+        existingLink.remove();
     }
+
+    // Display SweetAlert2 warning if background count is too high
+    if (bkgCounts > 200) {
+        if (!bkgCountsInput.dataset.warned) {
+            Swal.fire({
+                title: "⚠ High Background Warning!",
+                text: "Background count rate is too high (should be < 200 cpm). Verify background before proceeding.",
+                icon: "warning",
+                confirmButtonText: "Understood",
+                customClass: {
+                    popup: "swal-custom-warning"
+                }
+            });
+            bkgCountsInput.dataset.warned = "true";
+        }
+
+        // ✅ Add reference link dynamically
+        let link = document.createElement("a");
+        link.href = "https://westinghousenuclear.com/media/fflait0r/nisp-rp-002-rev-002-2024-02-06-final.pdf#search=6.2.2";
+        link.textContent = "Go to NISP-RP-002 Radiation and Contamination Surveys Section 6.2.2 (a & b)";
+        link.target = "_blank";
+        link.className = "nisp-link";
+        link.style.color = "#f776e6";
+        link.style.display = "block";
+        link.style.marginTop = "10px";
+        link.style.fontWeight = "bold";
+        link.style.textDecoration = "none";
+
+        unitsElement.insertAdjacentElement("afterend", link);
+    } else {
+        bkgCountsInput.dataset.warned = ""; 
+    }
+
+    let netCount = Math.max(countRate - bkgCounts, 0);
+    let dpmValue = netCount * 10;
+
+    ncpmOutput.textContent = formatNumber(netCount.toFixed(0)) + " ncpm";
+    dpmOutput.textContent = formatNumber(dpmValue.toFixed(0)) + " dpm";
+}
+
 
     // ✅ Ensure count rate remains editable at all times
     countRateInput.addEventListener("input", function () {
@@ -166,37 +171,72 @@ document.addEventListener("DOMContentLoaded", function () {
         let netCount = parseFloat(ncpmOutput.textContent.replace(/,/g, "")) || 0;
         let totalVolume = parseFloat(volumeMlOutput.textContent.replace(/,/g, "")) || 0;
         let sampleType = airSampleSelect.value;
-
+    
         if (totalVolume === 0) {
-            swal({
+            Swal.fire({
                 title: "Error",
                 text: "Volume cannot be zero. Ensure sample time and flow rate are correct.",
                 icon: "error",
-                button: "OK",
+                confirmButtonText: "OK"
             });
             return;
         }
-
+    
         const activityDpm = netCount / 0.1;
         const activityVolBeta = 2.22e-2;
         const activityVolAlpha = 6.66e-6;
-
+    
         let dacFraction = sampleType === "beta"
             ? (activityDpm) / (totalVolume * activityVolBeta)
             : (activityDpm) / (totalVolume * activityVolAlpha);
-
+    
         let formattedDacFraction = formatNumber(dacFraction);
-        let resultTitle = sampleType === "beta" ? "Beta-Gamma DAC Fraction" : "Alpha DAC Fraction";
-
-        swal({
+        let resultTitle = sampleType === "beta"
+            ? `Beta-Gamma DAC Fraction: ${formattedDacFraction} DAC`
+            : `Alpha DAC Fraction: ${formattedDacFraction} DAC`;
+    
+        // Determine which alert to show based on DAC fraction
+        let alertClass = "";
+        let alertText = "";
+        let customContent = "";
+    
+        if (dacFraction >= 1) {
+            alertClass = "red-alert";
+            alertText = `🚨 <b>STOP WORK!</b> The calculated DAC fraction is: ${formattedDacFraction}.<br><br> <b>STOP ALL WORK AND NOTIFY SUPERVISOR IMMEDIATELY!</b>`;
+        } else if (dacFraction > 0.3) {
+            alertClass = "magenta-alert";
+            alertText = `⚠ <b>The calculated DAC fraction is: ${formattedDacFraction}.</b> Exercise caution.`;
+    
+            // Custom content for magenta-alert (image + list)
+            customContent = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <img src="../img/alert-icon.png" alt="Warning Icon" style="width: 80px; height: auto;">
+                    <ul style="text-align: left; font-size: 16px; padding-left: 15px;">
+                        <li>Notify RP Supervisor</li>
+                        <li>Take backup air sample</li>
+                        <li>Ask for posting the area as ARA.</li>
+                        <li>Send to gamma spectrometry</li>
+                    </ul>
+                </div>
+            `;
+        } else {
+            alertClass = "green-alert";
+            alertText = `✅ The calculated DAC fraction is: ${formattedDacFraction}.`;
+        }
+    
+        // ✅ Show the alert using SweetAlert2
+        Swal.fire({
             title: resultTitle,
-            text: `✅ The calculated DAC fraction is: ${formattedDacFraction}.`,
-            icon: dacFraction < 0.3 ? "success" : "warning",
-            button: "OK",
-            className: dacFraction < 0.3 ? "green-alert" : "magenta-alert",
+            html: `<p>${alertText}</p>${customContent}`,
+            icon: dacFraction >= 1 ? "error" : dacFraction > 0.3 ? "warning" : "success",
+            confirmButtonText: "OK",
+            customClass: {
+                popup: alertClass
+            }
         });
     }
-
+    
+        
     // ✅ Event Listeners
     instrumentSelect.addEventListener("change", updateInstrumentSettings);
     startDate.addEventListener("change", calculateTotalTime);

@@ -181,6 +181,30 @@ button:hover {
   padding: 10px;
 }
 
+/* Alertas personalizadas para DAC Fraction */
+.green-alert {
+  background: #A1FFCE;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FAFFD1, #A1FFCE);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FAFFD1, #A1FFCE); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #155724 !important;
+  border: 2px solid #c3e6cb;
+}
+
+.magenta-alert {
+  background: #FBD3E9;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #BB377D, #FBD3E9);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #BB377D, #FBD3E9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  color: #721c24 !important;
+  border: 2px solid #f5c6cb;
+}
+
+.red-alert {
+  background: #cb2d3e;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ef473a, #cb2d3e);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ef473a, #cb2d3e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  color: #721c24 !important;
+  border: 3px solid #dc3545;
+  font-weight: bold;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .header {
@@ -364,15 +388,6 @@ button:hover {
   color: white;
   text-align: center;
   padding: 10px;
-}
-
-/* Alertas personalizadas para DAC Fraction */
-.swal-modal.green-alert {
-  background-color: #a5ffba !important; /* Verde suave */
-}
-
-.swal-modal.magenta-alert {
-  background-color: #f776e6 !important; /* Magenta suave */
 }
 
 /* Responsive Design */
