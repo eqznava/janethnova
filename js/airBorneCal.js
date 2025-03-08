@@ -203,14 +203,27 @@ function calculateActivity() {
         if (dacFraction >= 1) {
             alertClass = "red-alert";
             alertText = `🚨 <b>STOP WORK!</b> The calculated DAC fraction is: ${formattedDacFraction}.<br><br> <b>STOP ALL WORK AND NOTIFY SUPERVISOR IMMEDIATELY!</b>`;
-        } else if (dacFraction > 0.3) {
+            alertText = `${formattedDacFraction}`;
+            // Custom content for red-alert (image + list)
+            customContent = `
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <img src="../img/ara-hpbrfe.png" alt="Warning Icon" style="width: 80px; height: auto;">
+                <ul style="text-align: left; font-size: 16px; padding-left: 15px;">
+                    <li>Notify RP Supervisor</li>
+                    <li>Take backup air sample</li>
+                    <li>Post the area as ARA.</li>
+                    <li>Send to gamma spectrometry</li>
+                </ul>
+            </div>
+        `;
+        } else if (dacFraction > 0.3 &&  dacFraction < 1 ) {
             alertClass = "magenta-alert";
             alertText = `⚠ <b>The calculated DAC fraction is: ${formattedDacFraction}.</b> Exercise caution.`;
     
             // Custom content for magenta-alert (image + list)
             customContent = `
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <img src="../img/alert-icon.png" alt="Warning Icon" style="width: 80px; height: auto;">
+                    <img src="../img/ara-hpbrfe.png" alt="Warning Icon" style="width: 80px; height: auto;">
                     <ul style="text-align: left; font-size: 16px; padding-left: 15px;">
                         <li>Notify RP Supervisor</li>
                         <li>Take backup air sample</li>
@@ -227,8 +240,8 @@ function calculateActivity() {
         // ✅ Show the alert using SweetAlert2
         Swal.fire({
             title: resultTitle,
-            html: `<p>${alertText}</p>${customContent}`,
-            icon: dacFraction >= 1 ? "error" : dacFraction > 0.3 ? "warning" : "success",
+            html: `${customContent}`,
+           // icon: dacFraction >= 1 ? "error" : dacFraction > 0.3 ? "warning" : "success",
             confirmButtonText: "OK",
             customClass: {
                 popup: alertClass
