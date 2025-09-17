@@ -55,8 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (instrumentSelect.value === "frisker") {
             airSampleSelect.value = "beta";
             airSampleSelect.querySelector("option[value='alpha']").disabled = true;
-            efficiencyInput.value = "0.1";
-            efficiencyInput.disabled = true;
+            efficiencyInput.value = "10";
         } else {
             airSampleSelect.querySelector("option[value='alpha']").disabled = false;
             efficiencyInput.value = "";
@@ -112,6 +111,19 @@ document.addEventListener("DOMContentLoaded", function () {
 function calculateActivity() {
     let bkgCounts = parseFloat(bkgCountsInput.value) || 0;
     let countRate = parseFloat(countRateInput.value) || 0;
+    let eff = parseFloat(efficiencyInput.value) / 100 || 0;
+
+    if (eff <= 0) {
+        Swal.fire({
+            title: "Error",
+            text: "Efficiency must be greater than 0%. Please enter a valid efficiency.",
+            icon: "error",
+            confirmButtonText: "OK"
+        });
+        ncpmOutput.textContent = "0 ncpm";
+        dpmOutput.textContent = "0 dpm";
+        return;
+    }
 
     let parentElement = bkgCountsInput.closest(".dataContainer");
     let unitsElement = parentElement.querySelector(".units");
@@ -151,11 +163,11 @@ function calculateActivity() {
 
         unitsElement.insertAdjacentElement("afterend", link);
     } else {
-        bkgCountsInput.dataset.warned = ""; 
+        bkgCountsInput.dataset.warned = "";
     }
 
     let netCount = Math.max(countRate - bkgCounts, 0);
-    let dpmValue = netCount * 10;
+    let dpmValue = netCount / eff;
 
     ncpmOutput.textContent = formatNumber(netCount.toFixed(0)) + " ncpm";
     dpmOutput.textContent = formatNumber(dpmValue.toFixed(0)) + " dpm";
@@ -182,7 +194,18 @@ function calculateActivity() {
             return;
         }
     
-        const activityDpm = netCount / 0.1;
+        let eff = parseFloat(efficiencyInput.value) / 100 || 0;
+        if (eff <= 0) {
+            Swal.fire({
+                title: "Error",
+                text: "Efficiency must be greater than 0%. Please enter a valid efficiency.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+            return;
+        }
+    
+        const activityDpm = netCount / eff;
         const activityVolBeta = 2.22e-2;
         const activityVolAlpha = 6.66e-6;
     
