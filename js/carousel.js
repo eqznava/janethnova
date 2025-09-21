@@ -4,11 +4,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
 
+    // Guard: only initialize if the carousel markup exists
+    if (!carousel || cards.length === 0 || !prevBtn || !nextBtn) {
+        console.warn("[Carousel] Skipped initialization: required elements not found on this page.");
+        return;
+    }
+
     let currentIndex = 0;
     const totalCards = cards.length;
 
     function updateCarousel() {
-        cards.forEach((card, index) => {
+        cards.forEach((card) => {
             card.style.opacity = "0";  // Hide all cards
             card.style.display = "none";
         });

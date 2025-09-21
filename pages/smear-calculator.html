@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smear Counting Calculator</title>
+    <link rel="stylesheet" href="../css/smear-calculator.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../js/smear-calculator.js" defer></script>
+<body>
+    <header class="header">
+        <div class="headerLeft">Smear Counting Calculator</div>
+        <div class="headerRight"><img src="../img/radioactive.png" alt="radiation"></div>
+    </header>
+
+    <main class="main">
+        <!-- Radiation Type Selection (Session Level) -->
+        <div class="dataContainer" id="radiationTypeContainer">
+            <label for="radiationType">Radiation Type (Session Level):</label>
+            <select name="radiationType" id="radiationType">
+                <option value="">Select Radiation Type</option>
+                <option value="beta-gamma">Beta-Gamma (GM Frisker)</option>
+                <option value="alpha">Alpha</option>
+                <option value="beta-ion">Beta via Ion Chamber (OW−CW)</option>
+            </select>
+            <p class="warning-text" id="radiationTypeWarning">⚠️ Changing radiation type will reset all data!</p>
+        </div>
+
+        <!-- Instrument Metadata (Session Level) -->
+        <div class="dataContainer collapsible" id="instrumentContainer">
+            <div class="container-header" onclick="toggleCollapse('instrumentContainer')">
+                <label>Instrument Metadata (Session Level)</label>
+                <span class="collapse-arrow">▼</span>
+            </div>
+            <div class="container-content">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="instrumentType">Type:</label>
+                        <select name="instrumentType" id="instrumentType">
+                            <option value="frisker">GM Frisker</option>
+                            <option value="scaler">Scaler</option>
+                            <option value="ion-chamber">Ion Chamber</option>
+                            <option value="zns">ZnS Scintillator</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="instrumentModel">Model:</label>
+                        <input type="text" id="instrumentModel" name="instrumentModel" placeholder="e.g., Model 44-9">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="instrumentScale">Scale/Range:</label>
+                        <input type="text" id="instrumentScale" name="instrumentScale" placeholder="e.g., 0-500,000 cpm">
+                    </div>
+                    <div class="form-group">
+                        <label for="instrumentSerial">Serial (Optional):</label>
+                        <input type="text" id="instrumentSerial" name="instrumentSerial" placeholder="Serial number">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sessionBackground">Background (cpm):</label>
+                        <input type="number" id="sessionBackground" name="sessionBackground" placeholder="0" min="0" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="instrumentEfficiency">Efficiency (%):</label>
+                        <input type="number" id="instrumentEfficiency" name="instrumentEfficiency" placeholder="0" min="0" max="100" step="0.01">
+                    </div>
+                </div>
+                <div class="form-row" id="betaCorrectionRow" style="display: none;">
+                    <div class="form-group">
+                        <label for="betaCorrectionFactor">Beta Correction Factor (Kβ):</label>
+                        <input type="number" id="betaCorrectionFactor" name="betaCorrectionFactor" placeholder="1.0" min="0" step="0.01">
+                        <small>Required for OW−CW method</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Smear Count Setup -->
+        <div class="dataContainer" id="smearSetupContainer">
+            <label for="smearCount">Number of Smears (1-50):</label>
+            <input type="number" id="smearCount" name="smearCount" placeholder="10" min="1" max="50">
+            <button id="generateSmearsBtn">Generate Smear List</button>
+        </div>
+
+        <!-- Dynamic Smear Input Section -->
+        <div class="dataContainer" id="smearInputsContainer" style="display: none;">
+            <h3>Smear Measurements</h3>
+            <div id="smearInputsList">
+                <!-- Dynamic smear inputs will be generated here -->
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="dataContainer" id="resultsContainer" style="display: none;">
+            <h3>Results & Summary</h3>
+            <div id="resultsTable">
+                <!-- Results table will be generated here -->
+            </div>
+            <div id="alertsPanel">
+                <!-- Alerts will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="dataContainer" id="actionsContainer" style="display: none;">
+            <button id="addSmearBtn">Add Smear</button>
+            <button id="removeSmearBtn">Remove Last Smear</button>
+            <button id="exportBtn">Export Report (.txt)</button>
+            <button id="clearBtn">Clear All</button>
+            <button id="changeTypeBtn">Change Radiation Type</button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footerLeft">Developed by Jesus Arias Estrada and Sergio Arturo Enriquez Nava</div>
+        <div class="footerRight">Copyright 2025</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/smear-calculator.js"></script>
+</body>
+</html>
