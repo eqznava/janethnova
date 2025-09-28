@@ -1,0 +1,71 @@
+
+/* === No Horizontal Scroll + Centering Guardrail === */
+:root {
+  --page-max: 1200px;
+  --page-pad: 16px;
+}
+
+/* Box sizing + global clamp */
+html {
+  box-sizing: border-box;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+*, *::before, *::after { box-sizing: inherit; }
+
+/* Never allow page-level horizontal scroll */
+body {
+  overflow-x: clip; /* behaves like hidden but better for perf */
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Media should shrink within their container */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Shared centered page frame */
+.header, .main, .content, .container, .page, .footer {
+  max-width: var(--page-max);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--page-pad);
+  padding-right: var(--page-pad);
+}
+
+/* Common culprits */
+table { max-width: 100%; display: block; overflow-x: auto; } /* tables scroll inside themselves if needed */
+pre, code { white-space: pre-wrap; word-break: break-word; }
+
+/* Carousels / horizontal lists should not push the page */
+.carouselWrapper, .carousel, .cards, .card-track {
+  overflow-x: hidden !important;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Absolutely positioned nav buttons stay inside their relative parent */
+.carouselWrapper { position: relative; }
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  inset-inline: 8px; /* both left & right capped */
+}
+
+/* Avoid 100vw layouts that include the scrollbar width */
+.full-bleed {
+  width: 100%;
+}
+
+/* Optional: safe padding on mobile to prevent tiny overflows */
+@media (max-width: 480px) {
+  :root { --page-pad: 12px; }
+}
