@@ -1,0 +1,58 @@
+
+/* === iOS Safari Specific Fixes (iPhone) === */
+@supports (-webkit-touch-callout: none) {
+  html { 
+    -webkit-text-size-adjust: 100%;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  body {
+    overflow-x: clip; /* block horizontal scroll without jank */
+    width: 100%;
+    max-width: 100%;
+    /* Respect safe areas on iPhone (notch) */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Grid container for Tools: ensure hard centering */
+  .main {
+    /* If it's grid, this centers both the grid and items */
+    place-items: center;
+    justify-content: center;
+    justify-items: center;
+    margin-inline: auto;
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Prevent children from forcing overflow in grid/flex */
+  *, *::before, *::after { min-width: 0; }
+
+  /* Media should never overflow */
+  img, video, canvas, svg { max-width: 100%; height: auto; display: block; }
+
+  /* Carousels / horizontal tracks shouldn't push the page */
+  .carouselWrapper, .carousel, .cards, .card-track {
+    overflow-x: hidden !important;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  /* Keep absolute buttons inside the wrapper */
+  .carouselWrapper { position: relative; }
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    inset-inline-start: 8px;
+    inset-inline-end: 8px;
+  }
+
+  /* Avoid double‑tap zoom by ensuring controls are >= 16px */
+  input, select, textarea, button { font-size: 16px; }
+}
