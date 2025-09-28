@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const removeSmearBtn = document.getElementById("removeSmearBtn");
   const exportBtn = document.getElementById("exportBtn");
   const clearBtn = document.getElementById("clearBtn");
+  const changeTypeBtn = document.getElementById("changeTypeBtn");
 
   // ===== STATE =====
   let sessionData = {
@@ -694,6 +695,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const ok = await confirmModal("Clear All Data?", "This will remove all smear measurements.", "Clear");
     if (!ok) return;
     await performReset(sessionData.radiationType || null);
+  });
+
+  // Change radiation type (button)
+  if (changeTypeBtn) changeTypeBtn.addEventListener("click", async function () {
+    if (!sessionData.locked) {
+      showAlert("Select a radiation type first.", "error");
+      return;
+    }
+    const ok = await confirmModal(
+      "Change Radiation Type?",
+      "Changing radiation type will clear all smear data.",
+      "Yes, reset"
+    );
+    if (!ok) return;
+    // keep no type selected; user will choose a new one
+    await performReset(null);
+    radiationTypeSelect.focus();
   });
 
   // Instrument listeners (hydrate + recalc)
