@@ -2,6 +2,7 @@
 // Supports Beta-Gamma (GM), Alpha, and Beta via Ion Chamber (OW−CW) methods
 
 document.addEventListener("DOMContentLoaded", function () {
+  if (window.__SMEAR_INIT__) return; window.__SMEAR_INIT__ = true;
   // ===== DOM =====
   const radiationTypeSelect = document.getElementById("radiationType");
   const smearCountInput = document.getElementById("smearCount");
@@ -31,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const removeSmearBtn = document.getElementById("removeSmearBtn");
   const exportBtn = document.getElementById("exportBtn");
   const clearBtn = document.getElementById("clearBtn");
-  const changeTypeBtn = document.getElementById("changeTypeBtn");
 
   // ===== STATE =====
   let sessionData = {
@@ -696,23 +696,6 @@ document.addEventListener("DOMContentLoaded", function () {
     await performReset(sessionData.radiationType || null);
   });
 
-  // Change radiation type (button)
-  changeTypeBtn.addEventListener("click", async function () {
-    if (!sessionData.locked) {
-      showAlert("Select a radiation type first.", "error");
-      return;
-    }
-    const ok = await confirmModal(
-      "Change Radiation Type?",
-      "Changing radiation type will clear all smear data.",
-      "Yes, reset"
-    );
-    if (!ok) return;
-    // keep no type selected; user will choose a new one
-    await performReset(null);
-    radiationTypeSelect.focus();
-  });
-
   // Instrument listeners (hydrate + recalc)
   [instrumentTypeEl, instrumentModelEl, instrumentScaleEl, instrumentSerialEl].forEach((el) => {
     el.addEventListener("input", hydrateInstrumentFromUI);
@@ -747,9 +730,4 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 });
 
-smearCountInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    generateSmearInputs();
-  }
-});
+// (moved inside DOMContentLoaded guard)
